@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable Timed Mock Exam - SQE-Easy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="custom-mock-exam.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html" id="logo-link"><img src="logo.png" alt="SQE-Easy Logo"></a>
+            </div>
+            <ul class="main-nav">
+                <li><a href="index.html" id="nav-home">Home</a></li>
+                <li><a href="about.html" id="nav-about">About Us</a></li>
+                <li><a href="modes.html" id="nav-modes">Products</a></li>
+                <li><a href="subscriptions.html" id="nav-subscriptions">Subscriptions</a></li>
+                <li><a href="contact.html" id="nav-contact">Contact Us</a></li>
+                <li><a href="profile.html" id="nav-profile">My profile</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-secondary" id="nav-login">Login</a>
+                <a href="signup.html" class="btn btn-primary" id="nav-signup">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="exam-setup">
+            <h1>Customizable Timed Mock Exam</h1>
+            <form id="exam-setup-form">
+                <div class="form-group">
+                    <label for="question-count">Number of Questions:</label>
+                    <input type="number" id="question-count" min="1" max="100" value="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="exam-duration">Exam Duration (minutes):</label>
+                    <input type="number" id="exam-duration" min="1" max="240" value="60" required>
+                </div>
+                <div class="form-group">
+                    <label for="topic-select">Select Topic(s):</label>
+                    <select id="topic-select" multiple>
+                        <!-- Options will be populated dynamically from the server -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="difficulty-select">Difficulty Level:</label>
+                    <select id="difficulty-select">
+                        <option value="all">All Difficulties</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="previous-attempts">Filter by Previous Attempts:</label>
+                    <select id="previous-attempts">
+                        <option value="all">All Questions</option>
+                        <option value="correct">Correctly Answered</option>
+                        <option value="incorrect">Incorrectly Answered</option>
+                        <option value="unseen">Not Attempted Before</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Start Mock Exam</button>
+            </form>
+        </section>
+
+        <section id="exam-area" style="display: none;">
+            <div id="exam-header">
+                <h2>Timed Mock Exam</h2>
+                <div id="timer">Time Remaining: <span id="time-left">00:00:00</span></div>
+            </div>
+            <div id="question-area">
+                <div id="question-navigation">
+                    <!-- Question numbers will be dynamically inserted here -->
+                </div>
+                <div id="question-display">
+                    <h3 id="question-number">Question 1 of 50</h3>
+                    <p id="question-text"></p>
+                    <div id="answer-options">
+                        <!-- Answer options will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+            <div id="exam-controls">
+                <button id="prev-question" class="btn btn-secondary" disabled>Previous</button>
+                <button id="next-question" class="btn btn-primary">Next</button>
+                <button id="flag-question" class="btn btn-warning">Flag for Review</button>
+                <button id="finish-exam" class="btn btn-danger" style="display: none;">Finish Exam</button>
+            </div>
+        </section>
+
+        <section id="exam-summary" style="display: none;">
+            <h2>Exam Summary</h2>
+            <div id="summary-stats">
+                <p>Total Questions: <span id="total-questions">0</span></p>
+                <p>Answered: <span id="answered-questions">0</span></p>
+                <p>Flagged for Review: <span id="flagged-questions">0</span></p>
+                <p>Time Taken: <span id="time-taken">00:00:00</span></p>
+            </div>
+            <div id="summary-actions">
+                <button id="review-exam" class="btn btn-primary">Review Answers</button>
+                <button id="submit-exam" class="btn btn-success">Submit Exam</button>
+            </div>
+        </section>
+
+        <section id="exam-results" style="display: none;">
+            <h2>Exam Results</h2>
+            <div id="result-stats">
+                <p>Total Questions: <span id="result-total">0</span></p>
+                <p>Correct Answers: <span id="correct-answers">0</span></p>
+                <p>Incorrect Answers: <span id="incorrect-answers">0</span></p>
+                <p>Score: <span id="exam-score">0%</span></p>
+            </div>
+            <div id="result-actions">
+                <button id="view-detailed-results" class="btn btn-primary">View Detailed Results</button>
+                <button id="return-to-dashboard" class="btn btn-secondary">Return to Dashboard</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html" id="footer-home">Home</a></li>
+                    <li><a href="about.html" id="footer-about">About Us</a></li>
+                    <li><a href="modes.html" id="footer-modes">Study Modes</a></li>
+                    <li><a href="subscriptions.html" id="footer-subscriptions">Subscriptions</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: <a href="mailto:info@sqe-easy.com" id="footer-email">info@sqe-easy.com</a></p>
+                <p>Phone: <a href="tel:+441234567890" id="footer-phone">+44 123 456 7890</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon" id="social-facebook">Facebook</a>
+                    <a href="#" class="social-icon" id="social-twitter">Twitter</a>
+                    <a href="#" class="social-icon" id="social-linkedin">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 SQE-Easy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="exam.js"></script>
+</body>
+</html>
