@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - SQE-Easy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html" id="logo-link"><img src="logo.png" alt="SQE-Easy Logo"></a>
+            </div>
+            <ul class="main-nav">
+                <li><a href="index.html" id="nav-home">Home</a></li>
+                <li><a href="about.html" id="nav-about">About Us</a></li>
+                <li><a href="modes.html" id="nav-modes">Study Modes</a></li>
+                <li><a href="subscriptions.html" id="nav-subscriptions">Subscriptions</a></li>
+                <li><a href="contact.html" id="nav-contact">Contact Us</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-secondary" id="nav-login">Login</a>
+                <a href="signup.html" class="btn btn-primary" id="nav-signup">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Create Your SQE-Easy Account</h1>
+                <p>Start your journey to SQE success today</p>
+            </div>
+        </section>
+
+        <div class="content-wrapper">
+            <section id="signup-form">
+                <h2>Sign Up</h2>
+                <form id="user-signup-form">
+                    <div class="form-group">
+                        <label for="first-name">First Name:</label>
+                        <input type="text" id="first-name" name="first-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name:</label>
+                        <input type="text" id="last-name" name="last-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password:</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="study-stage">Current Study Stage:</label>
+                        <select id="study-stage" name="study-stage" required>
+                            <option value="">Select your current stage</option>
+                            <option value="preparing">Preparing for SQE</option>
+                            <option value="fkl1">Studying for FLK1</option>
+                            <option value="fkl2">Studying for FLK2</option>
+                            <option value="completed-flk1">Completed FLK1</option>
+                            <option value="completed-flk2">Completed FLK2</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+                <p class="form-footer">Already have an account? <a href="login.html">Log in here</a></p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html" id="footer-home">Home</a></li>
+                    <li><a href="about.html" id="footer-about">About Us</a></li>
+                    <li><a href="modes.html" id="footer-modes">Study Modes</a></li>
+                    <li><a href="subscriptions.html" id="footer-subscriptions">Subscriptions</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: <a href="mailto:info@sqe-easy.com" id="footer-email">info@sqe-easy.com</a></p>
+                <p>Phone: <a href="tel:+441234567890" id="footer-phone">+44 123 456 7890</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon" id="social-facebook">Facebook</a>
+                    <a href="#" class="social-icon" id="social-twitter">Twitter</a>
+                    <a href="#" class="social-icon" id="social-linkedin">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 SQE-Easy. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
