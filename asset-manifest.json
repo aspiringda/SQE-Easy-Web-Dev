@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/SQE-Easy-Web-Dev/static/css/main.363cc7c5.css",
+    "main.js": "/SQE-Easy-Web-Dev/static/js/main.3e893b7f.js",
+    "static/media/mcq_questions.csv": "/SQE-Easy-Web-Dev/static/media/mcq_questions.cfed9dc9f3dc3a79adae.csv",
+    "static/media/mockexam1.csv": "/SQE-Easy-Web-Dev/static/media/mockexam1.cfed9dc9f3dc3a79adae.csv",
+    "static/media/questions.csv": "/SQE-Easy-Web-Dev/static/media/questions.575d5f98f0f48a5b8339.csv",
+    "static/media/logo.png": "/SQE-Easy-Web-Dev/static/media/logo.6de643f214fc322a270c.png",
+    "index.html": "/SQE-Easy-Web-Dev/index.html",
+    "main.363cc7c5.css.map": "/SQE-Easy-Web-Dev/static/css/main.363cc7c5.css.map",
+    "main.3e893b7f.js.map": "/SQE-Easy-Web-Dev/static/js/main.3e893b7f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.363cc7c5.css",
+    "static/js/main.3e893b7f.js"
+  ]
+}
