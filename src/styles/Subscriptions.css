@@ -1,0 +1,95 @@
+.subscriptions {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .subscriptions h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+  }
+  
+  .subscriptions h2 {
+    color: #3498db;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+  
+  .plan-card, .mock-package, .custom-mock-package {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .plan-card h3, .mock-package h3, .custom-mock-package h3 {
+    color: #2c3e50;
+    margin-top: 0;
+  }
+  
+  .plan-card p, .mock-package p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #27ae60;
+    margin-bottom: 15px;
+  }
+  
+  .plan-card ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .plan-card ul li {
+    margin-bottom: 10px;
+  }
+  
+  .plan-card ul li:before {
+    content: "✓ ";
+    color: #27ae60;
+  }
+  
+  button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  .mock-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .mock-selector label {
+    margin-right: 10px;
+  }
+  
+  .mock-selector input {
+    width: 60px;
+    padding: 5px;
+    margin-right: 20px;
+  }
+  
+  @media (min-width: 768px) {
+    .combined-plans, .flk1-plans, .flk2-plans {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    .plan-card {
+      width: 48%;
+    }
+  }
