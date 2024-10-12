@@ -149,7 +149,7 @@ function RevisionMode() {
           <h2>Question:</h2>
           <p>{currentQuestion.Question}</p>
           {!isAnswerRevealed ? (
-            <button id="submit-answer" onClick={handleSubmit}>Submit Answer</button>
+            <button id="submit-answer" onClick={handleSubmit}>Show Answer</button>
           ) : (
             <div className="answer-section">
               <h3>Answer:</h3>

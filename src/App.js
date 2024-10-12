@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import PaymentPage from './pages/PaymentPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -21,6 +22,7 @@ function App() {
       <div className="App">
         <Header />
         <Routes>
+          <Route path="/payment" element={<PaymentPage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/products" element={<Products />} />

@@ -60,9 +60,60 @@
   margin-top: 20px;
 }
 
-#submit-answer,
-#answer-correct,
-#answer-incorrect,
+#submit-answer{
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1194c4;
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submit-answer:hover{
+  background-color: #38baf1;
+}
+
+#answer-correct{
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1b8949;
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#answer-correct:hover {
+  background-color: #33de7a;
+}
+
+#answer-incorrect{
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #b22e2e;
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#answer-incorrect:hover {
+  background-color:#da4040;
+}
+
 #nav-back,
 #nav-next {
   display: inline-block;
@@ -71,20 +122,18 @@
   margin-right: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #2ecc71;
+  background-color: #239fbb;
   color: rgb(255, 255, 255);
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-#submit-answer:hover,
-#answer-correct:hover,
-#answer-incorrect:hover,
 #nav-back:hover,
 #nav-next:hover {
-  background-color: #27ae60;
+  background-color: #30d7ea;
 }
+
 
 #submit-answer:disabled,
 #nav-back:disabled,

@@ -9,11 +9,14 @@ function ExamMode() {
   const [selectedExam, setSelectedExam] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
-  const [examDuration, setExamDuration] = useState(180); // 3 hours in minutes
+  const [flaggedQuestions, setFlaggedQuestions] = useState({});
+  const [sideNotes, setSideNotes] = useState({});
+  const [examDuration] = useState(180); // 3 hours in minutes
   const [timeRemaining, setTimeRemaining] = useState(examDuration * 60); // in seconds
   const [isExamActive, setIsExamActive] = useState(false);
   const [isExamCompleted, setIsExamCompleted] = useState(false);
   const [examResults, setExamResults] = useState(null);
+  const [selectedResultQuestion, setSelectedResultQuestion] = useState(null);
 
   useEffect(() => {
     fetch(questionsCSV)
@@ -80,6 +83,20 @@ function ExamMode() {
     }
   };
 
+  const handleFlagQuestion = () => {
+    setFlaggedQuestions(prev => ({
+      ...prev,
+      [currentQuestionIndex]: !prev[currentQuestionIndex]
+    }));
+  };
+
+  const handleSideNote = (note) => {
+    setSideNotes(prev => ({
+      ...prev,
+      [currentQuestionIndex]: note
+    }));
+  };
+
   const endExam = () => {
     setIsExamActive(false);
     setIsExamCompleted(true);
@@ -89,7 +106,9 @@ function ExamMode() {
       userAnswer: userAnswers[index] || 'Not answered',
       correctAnswer: question['Correct Answer'],
       isCorrect: userAnswers[index] === question['Correct Answer'],
-      explanation: question.Explanation
+      explanation: question.Explanation,
+      flagged: flaggedQuestions[index] || false,
+      sideNote: sideNotes[index] || ''
     }));
 
     const score = results.filter(r => r.isCorrect).length;
@@ -101,6 +120,10 @@ function ExamMode() {
       percentageCorrect,
       detailedResults: results
     });
+  };
+
+  const handleResultQuestionSelect = (index) => {
+    setSelectedResultQuestion(index);
   };
 
   const formatTime = (timeInSeconds) => {
@@ -128,29 +151,54 @@ function ExamMode() {
       )}
       {isExamActive && currentQuestion && (
         <div className="exam-area">
-          <div className="timer">Time Remaining: {formatTime(timeRemaining)}</div>
-          <div className="question-card">
-            <h2>Question {currentQuestionIndex + 1}:</h2>
-            <p>{currentQuestion.Question}</p>
-            <div className="answer-options">
-              {['A', 'B', 'C', 'D', 'E'].map((option) => (
-                currentQuestion[`Option ${option}`] && (
-                  <button
-                    key={option}
-                    onClick={() => handleAnswerSelect(option)}
-                    className={`answer-option ${userAnswers[currentQuestionIndex] === option ? 'selected' : ''}`}
-                  >
-                    {currentQuestion[`Option ${option}`]}
-                  </button>
-                )
-              ))}
-            </div>
-            <div className="navigation-buttons">
-              <button onClick={handleBack} disabled={currentQuestionIndex === 0}>Back</button>
-              <button onClick={handleNext} disabled={currentQuestionIndex === selectedExam.questions.length - 1}>Next</button>
+          <div className="left-panel">
+            <div className="timer">Time Remaining: {formatTime(timeRemaining)}</div>
+            <div className="question-card">
+              <h2>Question {currentQuestionIndex + 1}:</h2>
+              <p>{currentQuestion.Question}</p>
+              <div className="answer-options">
+                {['A', 'B', 'C', 'D', 'E'].map((option) => (
+                  currentQuestion[`Option ${option}`] && (
+                    <button
+                      key={option}
+                      onClick={() => handleAnswerSelect(option)}
+                      className={`answer-option ${userAnswers[currentQuestionIndex] === option ? 'selected' : ''}`}
+                    >
+                      {currentQuestion[`Option ${option}`]}
+                    </button>
+                  )
+                ))}
+              </div>
+              <button onClick={handleFlagQuestion} className="flag-btn">
+                {flaggedQuestions[currentQuestionIndex] ? 'Unflag' : 'Flag'} Question
+              </button>
+              <textarea
+                placeholder="Add a side note..."
+                value={sideNotes[currentQuestionIndex] || ''}
+                onChange={(e) => handleSideNote(e.target.value)}
+              />
+              <div className="navigation-buttons">
+                <button onClick={handleBack} disabled={currentQuestionIndex === 0}>Back</button>
+                <button onClick={handleNext} disabled={currentQuestionIndex === selectedExam.questions.length - 1}>Next</button>
+              </div>
+              {currentQuestionIndex === selectedExam.questions.length - 1 && (
+                <button onClick={endExam} className="end-exam-btn">End Exam</button>
+              )}
             </div>
           </div>
-          <button onClick={endExam} className="end-exam-btn">End Exam</button>
+          <div className="right-panel">
+            <div className="question-grid">
+              {selectedExam.questions.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentQuestionIndex(index)}
+                  className={`grid-item ${userAnswers[index] ? 'answered' : ''} ${flaggedQuestions[index] ? 'flagged' : ''}`}
+                >
+                  <span>{index + 1}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
       {isExamCompleted && examResults && (
@@ -158,15 +206,29 @@ function ExamMode() {
           <h2>Exam Results</h2>
           <p>Score: {examResults.score}/{examResults.totalQuestions}</p>
           <p>Percentage: {examResults.percentageCorrect.toFixed(2)}%</p>
-          <h3>Detailed Results:</h3>
-          {examResults.detailedResults.map((result, index) => (
-            <div key={index} className={`result-item ${result.isCorrect ? 'correct' : 'incorrect'}`}>
-              <p><strong>Question {index + 1}:</strong> {result.question}</p>
-              <p>Your Answer: {result.userAnswer}</p>
-              <p>Correct Answer: {result.correctAnswer}</p>
-              <p>Explanation: {result.explanation}</p>
+          <div className="results-grid">
+            {examResults.detailedResults.map((result, index) => (
+              <button
+                key={index}
+                onClick={() => handleResultQuestionSelect(index)}
+                className={`grid-item ${result.isCorrect ? 'correct' : 'incorrect'} ${result.flagged ? 'flagged' : ''}`}
+              >
+                <span>{index + 1}</span>
+              </button>
+            ))}
+          </div>
+          {selectedResultQuestion !== null && (
+            <div className="result-detail">
+              <h3>Question {selectedResultQuestion + 1}</h3>
+              <p><strong>Question:</strong> {examResults.detailedResults[selectedResultQuestion].question}</p>
+              <p><strong>Your Answer:</strong> {examResults.detailedResults[selectedResultQuestion].userAnswer}</p>
+              <p><strong>Correct Answer:</strong> {examResults.detailedResults[selectedResultQuestion].correctAnswer}</p>
+              <p><strong>Explanation:</strong> {examResults.detailedResults[selectedResultQuestion].explanation}</p>
+              {examResults.detailedResults[selectedResultQuestion].sideNote && (
+                <p><strong>Your Note:</strong> {examResults.detailedResults[selectedResultQuestion].sideNote}</p>
+              )}
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>
