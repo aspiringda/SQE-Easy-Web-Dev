@@ -13,6 +13,8 @@ function Header() {
         </div>
         <ul className="main-nav">
           <li><Link to="/" id="nav-home">Home</Link></li>
+          <li><Link to="/resources">Resources</Link></li>
+          <li><Link to="/becoming-solicitor">Becoming a Solicitor</Link></li>
           <li><Link to="/about" id="nav-about">About Us</Link></li>
           <li><Link to="/products" id="nav-modes">Products</Link></li>
           <li><Link to="/subscriptions" id="nav-subscriptions">Subscriptions</Link></li>

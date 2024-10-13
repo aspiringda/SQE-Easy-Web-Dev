@@ -1,0 +1,77 @@
+/* Resources.css */
+
+.resources-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  .resources-page h1 {
+    font-size: 2.5rem;
+    color: #0A2342;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .resource-section {
+    margin-bottom: 2rem;
+  }
+  
+  .resource-section h2 {
+    font-size: 1.8rem;
+    color: #0A2342;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #0A2342;
+    padding-bottom: 0.5rem;
+  }
+  
+  .resource-section ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .resource-section li {
+    margin-bottom: 1rem;
+  }
+  
+  .resource-section a {
+    color: #0A2342;
+    text-decoration: none;
+    border-bottom: 1px solid #0A2342;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+  }
+  
+  .resource-section a:hover {
+    color: #0D2E5A;
+    border-bottom: 1px solid #0D2E5A;
+  }
+  
+  .resource-section strong {
+    font-weight: bold;
+    color: #0A2342;
+  }
+  
+  .disclaimer {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  @media (max-width: 768px) {
+    .resources-page {
+      padding: 1rem;
+    }
+  
+    .resources-page h1 {
+      font-size: 2rem;
+    }
+  
+    .resource-section h2 {
+      font-size: 1.5rem;
+    }
+  }

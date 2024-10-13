@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PaymentPage from './pages/PaymentPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import BecomingSolicitor from './pages/BecomingSolicitor';
+import Resources from './pages/Resources';
 import HomePage from './pages/HomePage';
 import AboutUs from './pages/AboutUs';
 import Products from './pages/Products';
@@ -24,6 +26,8 @@ function App() {
         <Routes>
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/resources" element={<Resources />} />
+          <Route path="/becoming-solicitor" element={<BecomingSolicitor />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/products" element={<Products />} />
           <Route path="/revision" element={<RevisionMode />} />

@@ -1,0 +1,107 @@
+/* BecomingSolicitor.css */
+
+.becoming-solicitor {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  .becoming-solicitor h1 {
+    font-size: 2.5rem;
+    color: #0A2342;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .becoming-solicitor h2 {
+    font-size: 1.8rem;
+    color: #0A2342;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .becoming-solicitor h3 {
+    font-size: 1.4rem;
+    color: #0A2342;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .becoming-solicitor p {
+    margin-bottom: 1rem;
+  }
+  
+  .becoming-solicitor ul, .becoming-solicitor ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+  }
+  
+  .becoming-solicitor li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .becoming-solicitor a {
+    color: #0A2342;
+    text-decoration: none;
+    border-bottom: 1px solid #0A2342;
+  }
+  
+  .becoming-solicitor a:hover {
+    color: #0D2E5A;
+    border-bottom: 1px solid #0D2E5A;
+  }
+  
+  .steps ol {
+    counter-reset: steps;
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .steps ol > li {
+    counter-increment: steps;
+    margin-bottom: 1.5rem;
+  }
+  
+  .steps ol > li::before {
+    content: counter(steps);
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+    background-color: #0A2342;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 2rem;
+    font-weight: bold;
+  }
+  
+  .resources ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .resources li {
+    margin-bottom: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .becoming-solicitor {
+      padding: 1rem;
+    }
+  
+    .becoming-solicitor h1 {
+      font-size: 2rem;
+    }
+  
+    .becoming-solicitor h2 {
+      font-size: 1.5rem;
+    }
+  
+    .becoming-solicitor h3 {
+      font-size: 1.2rem;
+    }
+  }
