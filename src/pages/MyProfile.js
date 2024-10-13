@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/MyProfile.css';
 
 function MyProfile() {
   const [user, setUser] = useState({
