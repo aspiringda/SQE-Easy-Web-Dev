@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.c6429414.css",
-    "main.js": "/static/js/main.4a915397.js",
-    "static/media/mcq_questions.csv": "/static/media/mcq_questions.cfed9dc9f3dc3a79adae.csv",
-    "static/media/mockexam1.csv": "/static/media/mockexam1.cfed9dc9f3dc3a79adae.csv",
-    "static/media/questions.csv": "/static/media/questions.575d5f98f0f48a5b8339.csv",
-    "static/media/logo.png": "/static/media/logo.6de643f214fc322a270c.png",
-    "index.html": "/index.html",
-    "main.c6429414.css.map": "/static/css/main.c6429414.css.map",
-    "main.4a915397.js.map": "/static/js/main.4a915397.js.map"
+    "main.css": "/SQE-Easy-Web-Dev/static/css/main.c6429414.css",
+    "main.js": "/SQE-Easy-Web-Dev/static/js/main.40c189ee.js",
+    "static/media/mcq_questions.csv": "/SQE-Easy-Web-Dev/static/media/mcq_questions.cfed9dc9f3dc3a79adae.csv",
+    "static/media/mockexam1.csv": "/SQE-Easy-Web-Dev/static/media/mockexam1.cfed9dc9f3dc3a79adae.csv",
+    "static/media/questions.csv": "/SQE-Easy-Web-Dev/static/media/questions.575d5f98f0f48a5b8339.csv",
+    "static/media/logo.png": "/SQE-Easy-Web-Dev/static/media/logo.6de643f214fc322a270c.png",
+    "index.html": "/SQE-Easy-Web-Dev/index.html",
+    "main.c6429414.css.map": "/SQE-Easy-Web-Dev/static/css/main.c6429414.css.map",
+    "main.40c189ee.js.map": "/SQE-Easy-Web-Dev/static/js/main.40c189ee.js.map"
   },
   "entrypoints": [
     "static/css/main.c6429414.css",
-    "static/js/main.4a915397.js"
+    "static/js/main.40c189ee.js"
   ]
 }
