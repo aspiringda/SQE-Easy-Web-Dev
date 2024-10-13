@@ -1,116 +1,131 @@
 /* MyProfile.css */
 
 .my-profile {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-    font-family: Arial, sans-serif;
-    color: #333;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Nunito', sans-serif;
+}
+
+.my-profile h1 {
+  color: var(--deep-navy);
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.my-profile section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: var(--off-white);
+  border-radius: 8px;
+}
+
+.my-profile h2 {
+  color: var(--dull-gold);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.user-info p {
+  margin-bottom: 0.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--deep-navy);
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--steel-grey);
+  border-radius: 4px;
+  font-family: 'Nunito', sans-serif;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  cursor: pointer;
+  border: none;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: var(--dull-gold);
+  color: var(--deep-navy);
+}
+
+.btn-primary:hover {
+  background-color: #B39164;
+}
+
+.btn-secondary {
+  background-color: var(--steel-grey);
+  color: var(--off-white);
+}
+
+.btn-secondary:hover {
+  background-color: #8A8E9A;
+}
+
+.message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--dull-gold);
+  color: var(--deep-navy);
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.account-management button {
+  display: inline-block;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .my-profile {
+    padding: 1rem;
   }
-  
-  .my-profile h1 {
-    font-size: 2.5rem;
-    color: #0A2342;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .my-profile h2 {
-    font-size: 1.8rem;
-    color: #0A2342;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .user-info, .account-management, .study-progress {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
+
   .btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-right: 0;
   }
-  
-  .btn-primary {
-    background-color: #0A2342;
-    color: white;
-    border: none;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0D2E5A;
-  }
-  
-  .btn-secondary {
-    background-color: #6c757d;
-    color: white;
-    border: none;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #5a6268;
-  }
-  
-  .user-info p {
-    margin-bottom: 0.5rem;
-  }
-  
-  .user-info strong {
-    font-weight: bold;
-    margin-right: 0.5rem;
-  }
-  
-  .account-management button,
-  .user-info button {
-    margin-top: 1rem;
-  }
-  
-  .study-progress p {
-    font-style: italic;
-    color: #666;
-  }
-  
-  @media (max-width: 768px) {
-    .my-profile {
-      padding: 1rem;
-    }
-  
-    .my-profile h1 {
-      font-size: 2rem;
-    }
-  
-    .my-profile h2 {
-      font-size: 1.5rem;
-    }
-  
-    .btn {
-      width: 100%;
-      margin-bottom: 0.5rem;
-    }
-  }
+}
+
+/* Add smooth transitions */
+.my-profile * {
+  transition: all 0.3s ease;
+}
+
+/* Add a subtle hover effect to sections */
+.my-profile section:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the StudyProgressDashboard (assuming it's a child of .study-progress) */
+.study-progress > div {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

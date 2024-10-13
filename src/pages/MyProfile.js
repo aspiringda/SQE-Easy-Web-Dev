@@ -1,14 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/MyProfile.css';
+import StudyProgressDashboard from './StudyProgressDashboard';
+
+class AccountManager {
+  constructor(user) {
+    this.user = user;
+  }
+
+  extendSubscription(duration) {
+    return `Subscription extended by ${duration} days`;
+  }
+
+  cancelSubscription() {
+    return this.user.subscriptionType === 'business-commercial-law'
+      ? 'Subscription cancelled'
+      : 'Cancellation only available for Business and Commercial Law module';
+  }
+
+  logout() {
+    return 'User logged out';
+  }
+
+  changeCardDetails(newCardInfo) {
+    return 'Card details updated';
+  }
+
+  updateProfile(newInfo) {
+    return 'Profile updated';
+  }
+
+  viewBillingHistory() {
+    return 'Displaying billing history';
+  }
+}
 
 function MyProfile() {
   const [user, setUser] = useState({
     name: 'John Doe',
     email: 'john@example.com',
     studyStage: 'Preparing for SQE',
+    subscriptionType: 'business-commercial-law'
   });
-
   const [isEditing, setIsEditing] = useState(false);
+  const [accountManager, setAccountManager] = useState(null);
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    setAccountManager(new AccountManager(user));
+  }, [user]);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -16,14 +55,16 @@ function MyProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the updated user data to your backend
-    console.log('Profile updated:', user);
+    const result = accountManager.updateProfile(user);
+    setMessage(result);
     setIsEditing(false);
   };
 
-  const handleLogout = () => {
-    // Implement logout logic here
-    console.log('User logged out');
+  const handleAction = (action, ...args) => {
+    if (accountManager) {
+      const result = accountManager[action](...args);
+      setMessage(result);
+    }
   };
 
   return (
@@ -84,13 +125,15 @@ function MyProfile() {
       </section>
       <section className="account-management">
         <h2>Account Management</h2>
-        <button onClick={handleLogout} className="btn btn-secondary">Log Out</button>
-        {/* Add more account management options here */}
+        <button onClick={() => handleAction('extendSubscription', 30)} className="btn btn-primary">Extend Subscription</button>
+        <button onClick={() => handleAction('cancelSubscription')} className="btn btn-primary">Cancel Subscription</button>
+        <button onClick={() => handleAction('changeCardDetails', { cardNumber: '1234567890123456', expiryDate: '12/25' })} className="btn btn-primary">Change Card Details</button>
+        <button onClick={() => handleAction('viewBillingHistory')} className="btn btn-primary">View Billing History</button>
+        <button onClick={() => handleAction('logout')} className="btn btn-secondary">Log Out</button>
+        {message && <p className="message">{message}</p>}
       </section>
       <section className="study-progress">
-        <h2>Study Progress</h2>
-        {/* Add study progress information here */}
-        <p>This section will display the user's study progress and statistics.</p>
+        <StudyProgressDashboard />
       </section>
     </div>
   );

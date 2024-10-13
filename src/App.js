@@ -16,6 +16,7 @@ import MyProfile from './pages/MyProfile';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import SubscriptionsPage from './pages/SubscriptionsPage';
+import './pages/DashboardRing';
 import './styles/App.css';
 
 function App() {
