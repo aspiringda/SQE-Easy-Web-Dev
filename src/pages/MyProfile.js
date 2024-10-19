@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/MyProfile.css';
-import StudyProgressDashboard from './StudyProgressDashboard';
 
 class AccountManager {
   constructor(user) {
@@ -126,14 +126,16 @@ function MyProfile() {
       <section className="account-management">
         <h2>Account Management</h2>
         <button onClick={() => handleAction('extendSubscription', 30)} className="btn btn-primary">Extend Subscription</button>
-        <button onClick={() => handleAction('cancelSubscription')} className="btn btn-primary">Cancel Subscription</button>
         <button onClick={() => handleAction('changeCardDetails', { cardNumber: '1234567890123456', expiryDate: '12/25' })} className="btn btn-primary">Change Card Details</button>
         <button onClick={() => handleAction('viewBillingHistory')} className="btn btn-primary">View Billing History</button>
         <button onClick={() => handleAction('logout')} className="btn btn-secondary">Log Out</button>
         {message && <p className="message">{message}</p>}
       </section>
-      <section className="study-progress">
-        <StudyProgressDashboard />
+      <section className="dashboard">
+        <h2>Dashboard</h2>
+        <Link to="/dashboard" className="btn btn-primary" id="explore-progress-btn">
+          Explore Your Progress
+        </Link>
       </section>
     </div>
   );

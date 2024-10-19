@@ -3,7 +3,7 @@ import '../styles/RevisionMode.css';
 import Papa from 'papaparse';
 import questionsCSV from '../data/questions.csv';
 import MultiSelectFilter from './MultiSelectFilter';
-import DashboardRing from './DashboardRing';
+import DashboardRing from '../components/DashboardRing';
 
 function RevisionMode() {
   const [allQuestions, setAllQuestions] = useState([]);
