@@ -1,132 +1,118 @@
-/* Subscriptions page specific styles */
 .subscriptions-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    font-family: Arial, sans-serif;
-    max-height: 100vh;
-    overflow-y: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Nunito', sans-serif;
+  color: var(--deep-navy);
+}
+
+.subscriptions-page h1 {
+  text-align: center;
+  color: var(--deep-navy);
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.subscription-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.subscription-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.subscription-card h2 {
+  color: var(--deep-navy);
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.plan {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--steel-grey);
+}
+
+.plan:last-child {
+  border-bottom: none;
+}
+
+.plan h3 {
+  color: var(--dull-gold);
+  margin-bottom: 0.5rem;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--deep-navy);
+  margin-bottom: 1rem;
+}
+
+.plan ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.plan li {
+  margin-bottom: 0.5rem;
+  color: var(--deep-navy);
+}
+
+.subscribe-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--dull-gold);
+  color: var(--deep-navy);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+}
+
+.subscribe-btn:hover {
+  background-color: #B39164;
+}
+
+.tester-offer .subscribe-btn {
+  background-color: var(--steel-grey);
+}
+
+.tester-offer .subscribe-btn:hover {
+  background-color: #8A8E9A;
+}
+
+.flk1-plan .subscribe-btn {
+  background-color: var(--deep-navy);
+  color: var(--off-white);
+}
+
+.flk1-plan .subscribe-btn:hover {
+  background-color: #0D2E5A;
+}
+
+.flk2-plan .subscribe-btn {
+  background-color: var(--deep-navy);
+  color: var(--off-white);
+}
+
+.flk2-plan .subscribe-btn:hover {
+  background-color: #0D2E5A;
+}
+
+@media (max-width: 1200px) {
+  .subscription-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
-  
-  .subscriptions-page h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 2rem;
-  }
-  
-  .subscriptions-page .plans-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-  
-  .subscriptions-page .plan-column {
-    flex: 1;
-    min-width: 200px;
-    max-width: 300px;
-  }
-  
-  .subscriptions-page h2 {
-    text-align: center;
-    color: #444;
-    margin-bottom: 1rem;
-  }
-  
-  .subscriptions-page .plan-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease;
-  }
-  
-  .subscriptions-page .plan-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .subscriptions-page .plan-card h3 {
-    color: #333;
-    margin-bottom: 0.5rem;
-  }
-  
-  .subscriptions-page .plan-card .price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 1rem;
-  }
-  
-  .subscriptions-page .plan-card ul {
-    list-style-type: none;
-    padding: 0;
-    margin-bottom: 1.5rem;
-  }
-  
-  .subscriptions-page .plan-card li {
-    margin-bottom: 0.5rem;
-    color: #555;
-  }
-  
-  .subscriptions-page .plan-card button {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .subscriptions-page .plan-card button:hover {
-    background-color: #2980b9;
-  }
-  
-  /* Mock exam packages styles */
-  .subscriptions-page .mock-package {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-  }
-  
-  .subscriptions-page .mock-package button {
-    background-color: #2ecc71;
-  }
-  
-  .subscriptions-page .mock-package button:hover {
-    background-color: #27ae60;
-  }
-  
-  .subscriptions-page .custom-mock-package .mock-selector {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .subscriptions-page .custom-mock-package .mock-selector input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 1200px) {
-    .subscriptions-page .plans-container {
-      flex-wrap: wrap;
-    }
-  
-    .subscriptions-page .plan-column {
-      flex-basis: calc(50% - 1rem);
-      max-width: none;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .subscriptions-page .plan-column {
-      flex-basis: 100%;
-    }
-  }
-  
+}
