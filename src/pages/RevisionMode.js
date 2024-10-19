@@ -214,6 +214,7 @@ function RevisionMode() {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
+            console.log('Result and status saved successfully');
         } catch (error) {
             console.error('Error saving result and status:', error);
         }
