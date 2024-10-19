@@ -1,88 +1,101 @@
 import React from 'react';
+import '../styles/MultiSelectFilter.css';
 
 const MultiSelectFilter = ({ filters, onChange, availableModules }) => {
-  const handleCheckboxChange = (event) => {
-    const { value, checked } = event.target;
-    let newFilters;
+  const handleInputChange = (event) => {
+    const { name, value, checked, type } = event.target;
+    let newFilters = [...filters];
 
-    if (["all", "seen", "unseen"].includes(value)) {
-      // If selecting a question status option, remove other question status options
-      newFilters = filters.filter(f => !["all", "seen", "unseen"].includes(f));
+    if (type === 'radio') {
+      // For question status (all, seen, unseen)
+      newFilters = newFilters.filter(f => !['all', 'seen', 'unseen'].includes(f));
+      if (checked) newFilters.push(value);
+      
+      // Remove 'correct' and 'incorrect' if 'all' or 'unseen' is selected
+      if (['all', 'unseen'].includes(value)) {
+        newFilters = newFilters.filter(f => !['correct', 'incorrect'].includes(f));
+      }
+    } else if (name === 'answerStatus') {
+      // For answer status (correct, incorrect)
       if (checked) {
         newFilters.push(value);
-      }
-    } else {
-      // For other options, just add or remove as normal
-      if (checked) {
-        newFilters = [...filters, value];
       } else {
-        newFilters = filters.filter(f => f !== value);
+        newFilters = newFilters.filter(f => f !== value);
+      }
+    } else if (name === 'modules') {
+      // For modules
+      if (checked) {
+        newFilters.push(value);
+      } else {
+        newFilters = newFilters.filter(f => f !== value);
       }
     }
 
     onChange(newFilters);
   };
 
+  const isDisabled = (value) => {
+    if (filters.includes('all')) return value !== 'all';
+    if (filters.includes('unseen')) return ['correct', 'incorrect'].includes(value);
+    return false;
+  };
+
   return (
     <div className="multi-select-filter">
-      <div>
+      <div className="filter-section">
         <h3>Question Status</h3>
-        <label>
-          <input
-            type="checkbox"
-            value="all"
-            checked={filters.includes('all')}
-            onChange={handleCheckboxChange}
-          /> All Questions
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="seen"
-            checked={filters.includes('seen')}
-            onChange={handleCheckboxChange}
-          /> Seen Questions
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="unseen"
-            checked={filters.includes('unseen')}
-            onChange={handleCheckboxChange}
-          /> Unseen Questions
-        </label>
+        <div className="radio-group">
+          {['all', 'seen', 'unseen'].map(status => (
+            <label key={status} className="radio-label">
+              <input
+                type="radio"
+                name="questionStatus"
+                value={status}
+                checked={filters.includes(status)}
+                onChange={handleInputChange}
+              />
+              <span className="radio-custom"></span>
+              {status.charAt(0).toUpperCase() + status.slice(1)} Questions
+            </label>
+          ))}
+        </div>
       </div>
-      <div>
+      <div className="filter-section">
         <h3>Answer Status</h3>
-        <label>
-          <input
-            type="checkbox"
-            value="correct"
-            checked={filters.includes('correct')}
-            onChange={handleCheckboxChange}
-          /> Correct Answers
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="incorrect"
-            checked={filters.includes('incorrect')}
-            onChange={handleCheckboxChange}
-          /> Incorrect Answers
-        </label>
+        <div className="checkbox-group">
+          {['correct', 'incorrect'].map(status => (
+            <label key={status} className="checkbox-label">
+              <input
+                type="checkbox"
+                name="answerStatus"
+                value={status}
+                checked={filters.includes(status)}
+                onChange={handleInputChange}
+                disabled={isDisabled(status)}
+              />
+              <span className="checkbox-custom"></span>
+              {status.charAt(0).toUpperCase() + status.slice(1)} Answers
+            </label>
+          ))}
+        </div>
       </div>
-      <div>
+      <div className="filter-section">
         <h3>Modules</h3>
-        {availableModules.map(module => (
-          <label key={module}>
-            <input
-              type="checkbox"
-              value={module}
-              checked={filters.includes(module)}
-              onChange={handleCheckboxChange}
-            /> {module}
-          </label>
-        ))}
+        <div className="checkbox-group">
+          {availableModules.map(module => (
+            <label key={module} className="checkbox-label">
+              <input
+                type="checkbox"
+                name="modules"
+                value={module}
+                checked={filters.includes(module)}
+                onChange={handleInputChange}
+              />
+              <span className="checkbox-custom"></span>
+              {module}
+            </label>
+          ))}
+        </div>
       </div>
     </div>
   );
