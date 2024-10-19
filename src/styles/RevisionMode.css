@@ -52,7 +52,7 @@
 
 #start-session {
   display: inline-block;
-  width: 20%;
+  width: 30%;
   padding: 10px;
   background-color: #3498db;
   color: white;
@@ -62,13 +62,13 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   position: relative;
-  left: 350px;  
+  left: 400px;  
   bottom: 60px;
 }
 
 #end-session {
   display: inline-block;
-  width: 15%;
+  width: 30%;
   padding: 10px;
   background-color: #b82f2f;
   color: white;
@@ -78,7 +78,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   position: relative;
-  left: 800px;  
+  left: 570px;  
 }
 #start-session:hover {
   background-color: #3fb9e2;

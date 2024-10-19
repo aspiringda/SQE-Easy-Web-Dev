@@ -393,8 +393,8 @@ footer {
 /* Subscription page styles */
 .subscription-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(5, 1fr));
+    gap: 1rem;
     margin: 2rem 0;
 }
 
@@ -548,4 +548,5 @@ select:focus {
     margin-top: 10px;
     padding: 10px;
     cursor: pointer;
-  }
+  } 
+  
