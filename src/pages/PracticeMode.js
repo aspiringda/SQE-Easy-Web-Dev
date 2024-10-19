@@ -3,7 +3,7 @@ import '../styles/PracticeMode.css';
 import Papa from 'papaparse';
 import questionsCSV from '../data/mcq_questions.csv';
 import MultiSelectFilter from './MultiSelectFilter';
-import DashboardRing from '../components/DashboardRing';
+import DashboardRing from './DashboardRing';
 import { usePracticeStats } from '../pages/usePracticeStats';
 
 function PracticeMode() {

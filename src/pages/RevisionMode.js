@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/RevisionMode.css';
-// import Papa from 'papaparse';
-// import questionsCSV from '../data/questions.csv';
 import MultiSelectFilter from './MultiSelectFilter';
-import DashboardRing from '../components/DashboardRing';
+import DashboardRing from './DashboardRing';
 
 function RevisionMode() {
   const [allQuestions, setAllQuestions] = useState([]);

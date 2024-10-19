@@ -16,7 +16,7 @@ import Dashboard from './pages/Dashboard';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import SubscriptionsPage from './pages/SubscriptionsPage';
-import './components/DashboardRing';
+import DashborardRing from './pages/DashboardRing';
 import './styles/App.css';
 
 function App() {
