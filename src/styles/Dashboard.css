@@ -1,0 +1,40 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dashboard h1 {
+  color: var(--deep-navy);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.additional-stats {
+  background-color: var(--off-white);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.additional-stats h2 {
+  color: var(--deep-navy);
+  margin-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+  .dashboard-content {
+    flex-direction: row;
+  }
+
+  .global-ring,
+  .additional-stats {
+    flex: 1;
+  }
+}

@@ -4,6 +4,7 @@ import Papa from 'papaparse';
 import questionsCSV from '../data/mcq_questions.csv';
 import MultiSelectFilter from './MultiSelectFilter';
 import DashboardRing from './DashboardRing';
+import { usePracticeStats } from '../pages/usePracticeStats';
 
 function PracticeMode() {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -16,10 +17,11 @@ function PracticeMode() {
   const [availableModules, setAvailableModules] = useState([]);
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
   const [isSessionStarted, setIsSessionStarted] = useState(false);
-  const [globalStats, setGlobalStats] = useState({ total: 0, answered: 0, correct: 0 });
   const [sessionStats, setSessionStats] = useState({ total: 0, answered: 0, correct: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [isSessionComplete, setIsSessionComplete] = useState(false);
+
+  const globalStats = usePracticeStats(allQuestions, userProgress);
 
   useEffect(() => {
     fetchQuestions();
@@ -91,17 +93,6 @@ function PracticeMode() {
     setSessionStats({ total: filtered.length, answered: 0, correct: 0 });
     setIsSessionComplete(false);
   }, [allQuestions, filters, userProgress, availableModules, numberOfQuestions]);
-
-  useEffect(() => {
-    const totalQuestions = allQuestions.length;
-    const answeredQuestions = Object.values(userProgress).filter(p => p.seen).length;
-    const correctAnswers = Object.values(userProgress).filter(p => p.correct).length;
-    setGlobalStats({
-      total: totalQuestions,
-      answered: answeredQuestions,
-      correct: correctAnswers
-    });
-  }, [allQuestions, userProgress]);
 
   const handleSubmit = useCallback(() => {
     if (selectedAnswer && !isAnswerRevealed && !isSessionComplete) {
