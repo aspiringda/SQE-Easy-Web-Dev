@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/RevisionMode.css';
-// import Papa from 'papaparse';
-// import questionsCSV from '../data/questions.csv';
 import MultiSelectFilter from './MultiSelectFilter';
 import DashboardRing from './DashboardRing';
 
