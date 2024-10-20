@@ -10,11 +10,11 @@ app.use(express.json()); // Make sure to use express.json() if you're expecting 
 
 // Create a connection pool
 const pool = mysql.createPool({
-  host: '192.168.1.206',
-  user: 'chadielh',
-  password: 'DidoMziwen123!',
-  database: 'qa_questions'
-});
+    host: 'localhost',
+    user: 'root',
+    password: 'LawMadeEasy123!',
+    database: 'qa_questions'
+  });
 
 app.get('/available-modules', async function(req, res) {
     try {
