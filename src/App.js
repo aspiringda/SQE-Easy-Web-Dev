@@ -18,9 +18,16 @@ import SignupPage from './pages/SignupPage';
 import SubscriptionsPage from './pages/SubscriptionsPage';
 import DashborardRing from './pages/DashboardRing';
 import './styles/App.css';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  // Customize your theme here
+});
 
 function App() {
   return (
+    <ThemeProvider theme={theme}>
+      {/* Your app components */}
     <Router>
       <div className="App">
         <Header />
@@ -43,6 +50,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </ThemeProvider>
   );
 }
 

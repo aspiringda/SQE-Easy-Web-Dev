@@ -173,29 +173,6 @@ h1, h2, h3 {
     background-color: var(--dull-gold);
 }
 
-/* Feature grid */
-/*#features {
-    margin: 4rem 0;
-}
-
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
-}
-
-.feature-card {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.feature-card h3 {
-    color: var(--dull-gold);
-}*/
-
 
 #features {
     padding: 4rem 5%; /* Use percentage for responsive side padding */

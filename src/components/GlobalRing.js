@@ -9,11 +9,11 @@ const GlobalRing = ({ globalStats }) => {
   const { total, answered, correct } = globalStats;
 
   const data = {
-    labels: ['Correct', 'Incorrect', 'Unanswered'],
+    labels: ['Correct', 'Incorrect', 'Unseen'],
     datasets: [
       {
         data: [correct, answered - correct, total - answered],
-        backgroundColor: ['#4CAF50', '#F44336', '#9EA3B0'],
+        backgroundColor: ['#2d6a4f', '#c54d25', '#9EA3B0'],
         hoverBackgroundColor: ['#45a049', '#da190b', '#8a8e99'],
       },
     ],
@@ -43,20 +43,32 @@ const GlobalRing = ({ globalStats }) => {
   const percentage = total > 0 ? ((correct / total) * 100).toFixed(1) : '0.0';
 
   return (
-    <div className="global-ring">
-      <h2>Overall Progress</h2>
-      <div className="ring-container">
-        <div className="chart-container">
-          <Doughnut data={data} options={options} />
-        </div>
-        <div className="stats-text">
-          <p>Total Questions: {total}</p>
-          <p>Answered: {answered}</p>
-          <p>Correct: {correct}</p>
-          <p>Percentage: {percentage}%</p>
-        </div>
+    <div className="dashboard-ring">
+    <div className="ring-container">
+      <h2>Overall Progress Revision Mode</h2>
+      <div className="chart-container">
+        <Doughnut data={data} options={options} />
+      </div>
+      <div className="stats-text">
+        <p>Total Questions: {total}</p>
+        <p>Answered: {answered}</p>
+        <p>Correct: {correct}</p>
+        <p>Percentage: {percentage}%</p>
       </div>
     </div>
+    <div className="ring-container">
+      <h2>Overall Progress Practice Mode</h2>
+      <div className="chart-container">
+        <Doughnut data={data} options={options} />
+      </div>
+      <div className="stats-text">
+        <p>Total Questions: {total}</p>
+        <p>Answered: {answered}</p>
+        <p>Correct: {correct}</p>
+        <p>Percentage: {percentage}%</p>
+      </div>
+    </div>
+  </div>
   );
 };
 

@@ -1,0 +1,90 @@
+/* src/styles/ExamBreakdown.css */
+
+.exam-breakdown {
+    margin-top: 30px;
+  }
+  
+  .exam-breakdown h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.5em;
+  }
+  
+  .exam-breakdown .recharts-wrapper {
+    margin-left: -20px;
+  }
+  
+  .exam-breakdown .recharts-cartesian-grid-horizontal line,
+  .exam-breakdown .recharts-cartesian-grid-vertical line {
+    stroke: #e0e0e0;
+  }
+  
+  .exam-breakdown .recharts-cartesian-axis-tick-value {
+    fill: #666;
+  }
+  
+  .exam-breakdown .module-label {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    fill: #333;
+  }
+  
+  .exam-breakdown .module-number {
+    font-weight: bold;
+  }
+  
+  .exam-breakdown .module-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+  }
+  
+  /* Styles for the exam progress chart */
+  .mock-exam-progress {
+    margin-bottom: 30px;
+  }
+  
+  .mock-exam-progress .recharts-dot {
+    cursor: pointer;
+  }
+  
+  .mock-exam-progress .recharts-dot:hover {
+    fill: #4caf50;
+  }
+  
+  /* Styles for the dialog */
+  .MuiDialog-paper {
+    max-width: 900px !important;
+    width: 90% !important;
+  }
+  
+  .MuiDialogTitle-root {
+    background-color: #f5f5f5;
+    padding: 16px 24px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .MuiDialogContent-root {
+    padding: 24px;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .exam-breakdown .recharts-wrapper {
+      margin-left: 0;
+    }
+    
+    .exam-breakdown .module-label {
+      font-size: 10px;
+    }
+    
+    .exam-breakdown .module-name {
+      max-width: 80px;
+    }
+  
+    .MuiDialog-paper {
+      max-width: 95% !important;
+    }
+  }

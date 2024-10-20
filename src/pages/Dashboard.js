@@ -1,57 +1,35 @@
-/*import React from 'react';
-import GlobalRing from '../components/GlobalRing';
-import { usePracticeStats } from './usePracticeStats';
-import '../styles/Dashboard.css';
-
-const Dashboard = () => {
-  const globalStats = usePracticeStats();
-
-  const accuracy = globalStats.answered > 0
-    ? ((globalStats.correct / globalStats.answered) * 100).toFixed(2)
-    : '0.00';
-
-  return (
-    <div className="dashboard">
-      <h1>Dashboard</h1>
-      <div className="dashboard-content">
-        <GlobalRing globalStats={globalStats} />
-        <div className="additional-stats">
-          <h2>Overall Progress</h2>
-          <p>Total Questions: {globalStats.total}</p>
-          <p>Answered Questions: {globalStats.answered}</p>
-          <p>Correct Answers: {globalStats.correct}</p>
-          <p>Accuracy: {accuracy}%</p>
-        </div>
-      </div>
-    </div>
-  );
-};*/
-
-
 import React, { useState, useEffect } from 'react';
 import GlobalRing from '../components/GlobalRing';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import ExamBreakdown from '../components/ExamBreakdown';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import '../styles/Dashboard.css';
 
+const CustomYAxisTick = ({ x, y, payload }) => {
+  const [moduleNum, ...rest] = payload.value.split(':');
+  const restOfText = rest.join(':').trim();
+  
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={4} textAnchor="end" fill="#666" className="module-label">
+        <tspan x={0} className="module-number">{moduleNum}</tspan>
+        <tspan x={0} dy="1.2em" className="module-name">{restOfText}</tspan>
+      </text>
+    </g>
+  );
+};
+
 const Dashboard = () => {
-  // State for storing fetched data
   const [overallPerformance, setOverallPerformance] = useState(null);
   const [mockExamData, setMockExamData] = useState([]);
   const [modulePerformance, setModulePerformance] = useState([]);
 
   useEffect(() => {
-    // Fetch data when component mounts
     fetchDashboardData();
   }, []);
 
   const fetchDashboardData = async () => {
     try {
-      // TODO: Replace these with actual API calls
-      // const overallPerformanceData = await api.fetchOverallPerformance();
-      // const mockExamData = await api.fetchMockExamData();
-      // const modulePerformanceData = await api.fetchModulePerformance();
-
-      // Placeholder data
+      // Simulated API call - replace with actual API call in production
       const overallPerformanceData = {
         total: 1000,
         answered: 750,
@@ -59,28 +37,60 @@ const Dashboard = () => {
       };
 
       const mockExamData = [
-        { name: 'Exam 1', score: 65 },
-        { name: 'Exam 2', score: 70 },
-        { name: 'Exam 3', score: 75 },
-        { name: 'Exam 4', score: 72 },
-        { name: 'Exam 5', score: 80 },
+        { 
+          name: 'Exam 1', 
+          score: 65,
+          moduleBreakdown: [
+            { name: 'Module 1 : Business Law and Practice', unseen: 20, correct: 60, incorrect: 20 },
+            { name: 'Module 2 : Dispute Resolution', unseen: 15, correct: 70, incorrect: 15 },
+            { name: 'Module 3 : Contract', unseen: 25, correct: 55, incorrect: 20 },
+            { name: 'Module 4 : Tort Law ', unseen: 10, correct: 80, incorrect: 10 },
+            { name: 'Module 5 :The Legal System', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 6 : Property Practice', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 7 : Wills and Administration of Estates', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 8 :Solicitors Accounts', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 9 : Land Law', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 10 : Trusts ', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 11 : Criminal Law and Practice ', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 12 :', unseen: 30, correct: 50, incorrect: 20 }
+          ]
+        },
+        { 
+          name: 'Exam 2', 
+          score: 70,
+        moduleBreakdown : [
+            { name: 'Module 1 : Business Law and Practice', unseen: 20, correct: 60, incorrect: 20 },
+            { name: 'Module 2 : Dispute Resolution', unseen: 15, correct: 70, incorrect: 15 },
+            { name: 'Module 3 : Contract', unseen: 25, correct: 55, incorrect: 20 },
+            { name: 'Module 4 : Tort Law ', unseen: 10, correct: 80, incorrect: 10 },
+            { name: 'Module 5 :The Legal System', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 6 : Property Practice', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 7 : Wills and Administration of Estates', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 8 :Solicitors Accounts', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 9 : Land Law', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 10 : Trusts ', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 11 : Criminal Law and Practice ', unseen: 30, correct: 50, incorrect: 20 },
+            { name: 'Module 12 :', unseen: 30, correct: 50, incorrect: 20 }
+          ]
+        }
       ];
+// More exams
 
       const modulePerformanceData = [
-        { name: 'Module 1', score: 75 },
-        { name: 'Module 2', score: 80 },
-        { name: 'Module 3', score: 65 },
-        { name: 'Module 4', score: 90 },
-        { name: 'Module 5', score: 70 },
-        { name: 'Module 6', score: 85 },
-        { name: 'Module 7', score: 78 },
-        { name: 'Module 8', score: 88 },
-        { name: 'Module 9', score: 72 },
-        { name: 'Module 10', score: 76 },
-        { name: 'Module 11', score: 82 },
-        { name: 'Module 12', score: 79 },
+        { name: 'Module 1 : Business Law and Practice', unseen: 20, correct: 60, incorrect: 20 },
+        { name: 'Module 2 : Dispute Resolution', unseen: 15, correct: 70, incorrect: 15 },
+        { name: 'Module 3 : Contract', unseen: 25, correct: 55, incorrect: 20 },
+        { name: 'Module 4 : Tort Law ', unseen: 10, correct: 80, incorrect: 10 },
+        { name: 'Module 5 : The Legal System', unseen: 30, correct: 50, incorrect: 20 },
+        { name: 'Module 6 : Property Practice', unseen: 30, correct: 50, incorrect: 20 },
+        { name: 'Module 7 : Wills and Administration of Estates', unseen: 30, correct: 50, incorrect: 20 },
+        { name: 'Module 8 : Solicitors Accounts', unseen: 30, correct: 50, incorrect: 20 },
+        { name: 'Module 9 : Land Law', unseen: 30, correct: 50, incorrect: 20 },
+        { name: 'Module 10 :Trusts ', unseen: 30, correct: 50, incorrect: 20 },
+        { name: 'Module 11 :Criminal Law and Practice ', unseen: 30, correct: 50, incorrect: 20 },
+        { name: 'Module 12 :', unseen: 30, correct: 50, incorrect: 20 },
       ];
-
+      
       setOverallPerformance(overallPerformanceData);
       setMockExamData(mockExamData);
       setModulePerformance(modulePerformanceData);
@@ -95,6 +105,7 @@ const Dashboard = () => {
       <h1>Your Performance Dashboard</h1>
 
       <div className="dashboard-grid">
+        {/* Overall Performance section */}
         <section className="overall-performance">
           <h2>Overall Performance</h2>
           {overallPerformance ? (
@@ -104,37 +115,34 @@ const Dashboard = () => {
           )}
         </section>
 
-        <section className="mock-exam-progress">
-          <h2>Mock Exam Progress</h2>
-          {mockExamData.length > 0 ? (
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={mockExamData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="score" stroke="#8884d8" activeDot={{ r: 8 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          ) : (
-            <p>Loading mock exam data...</p>
-          )}
-        </section>
+        {/* Mock Exam Progress section */}
+        <ExamBreakdown mockExamData={mockExamData} />
 
+        {/* Module Performance section */}
         <section className="module-performance">
           <h2>Module Performance</h2>
-          {modulePerformance.length > 0 ? (
-            <div className="module-bars">
-              {modulePerformance.map((module) => (
-                <div key={module.name} className="module-bar">
-                  <div className="module-name">{module.name}</div>
-                  <div className="module-score-bar" style={{ width: `${module.score}%` }}>
-                    {module.score}%
-                  </div>
-                </div>
-              ))}
-            </div>
+        {modulePerformance.length > 0 ? (
+            <ResponsiveContainer width="100%" height={modulePerformance.length * 50 + 100}>
+              <BarChart
+                layout="vertical"
+                data={modulePerformance}
+                margin={{ top: 20, right: 0, left: 25, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" domain={[0, 100]} />
+                <YAxis 
+                  dataKey="name" 
+                  type="category" 
+                  width={170}
+                  tick={<CustomYAxisTick />}
+                />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="correct" stackId="a" fill="#2d6a4f" barSize={20} />
+                <Bar dataKey="incorrect" stackId="a" fill="#c54d25" barSize={20} />
+                <Bar dataKey="unseen" stackId="a" fill="#3333" barSize={20}/>
+              </BarChart>
+            </ResponsiveContainer>
           ) : (
             <p>Loading module performance data...</p>
           )}

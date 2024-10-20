@@ -38,3 +38,49 @@
     flex: 1;
   }
 }
+.module-performance {
+  margin-top: 30px;
+}
+
+.module-performance h2 {
+  margin-bottom: 20px;
+}
+
+.module-performance .recharts-wrapper {
+  margin-left: -20px;
+}
+
+.module-performance .recharts-cartesian-axis-tick {
+  overflow: visible;
+}
+
+.module-performance .module-label {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+.module-performance .module-number {
+  font-weight: bold;
+}
+
+.module-performance .module-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px; /* Adjust this value as needed */
+}
+
+@media (max-width: 768px) {
+  .module-performance .recharts-wrapper {
+    margin-left: 0;
+  }
+  
+  .module-performance .module-label {
+    font-size: 10px;
+  }
+  
+  .module-performance .module-name {
+    max-width: 80px; /* Adjust for mobile */
+  }
+}
+
