@@ -6,7 +6,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors());
-app.use(express.json()); // Make sure to use express.json() if you're expecting to receive JSON data
+app.use(express.json()); 
 
 // Create a connection pool
 const pool = mysql.createPool({
@@ -182,11 +182,6 @@ app.get('/session-metrics', async function(req, res) {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
-
-
-
-
-
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

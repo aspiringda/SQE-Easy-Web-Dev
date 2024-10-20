@@ -18,6 +18,20 @@ function RevisionMode() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSessionComplete, setIsSessionComplete] = useState(false);
   const [selectedModules, setSelectedModules] = useState([]);
+  const [sessionMetrics, setSessionMetrics] = useState({ unseen: 0, correct: 0, incorrect: 0 });
+
+  const fetchSessionMetrics = useCallback(async () => {
+    try {
+      const response = await fetch('/session-metrics');
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const metrics = await response.json();
+      setSessionMetrics(metrics);
+    } catch (error) {
+      console.error('Error fetching session metrics:', error);
+    }
+  }, []);
   
   const fetchAvailableModules = useCallback(async () => {
     try {
@@ -117,7 +131,7 @@ function RevisionMode() {
     setFilteredQuestions(fetchedQuestions);
   }, [availableModules, fetchQuestions]);
 
-  const applyFiltersAndStartSession = useCallback(() => {
+  const applyFiltersAndStartSession = useCallback(async() => {
     const filteredQuestions = applyFilters(allQuestions, filters);
     setFilteredQuestions(filteredQuestions.slice(0, numberOfQuestions));
     setCurrentQuestionIndex(0);
@@ -125,7 +139,31 @@ function RevisionMode() {
     setIsSessionStarted(true);
     setSessionStats({ total: 0, correct: 0 });
     setIsSessionComplete(false);
-  }, [allQuestions, filters, applyFilters, numberOfQuestions]);
+
+    try {
+      await fetch('/clear-session', { method: 'POST' });
+      const unseenQuestions = filteredQuestions.slice(0, numberOfQuestions).map(q => ({
+        id: q.id,
+        question: q.question,
+        answer: q.answer,
+        module: q.module,
+        status: 'unseen',
+        result: null
+      }));
+
+      for (const q of unseenQuestions) {
+        await fetch('/save-result', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(q)
+        });
+      }
+
+      await fetchSessionMetrics();
+    } catch (error) {
+      console.error('Error initializing session:', error);
+    }
+  }, [allQuestions, filters, applyFilters, numberOfQuestions, fetchSessionMetrics]);
 
   const loadUserProgress = useCallback(() => {
     const savedProgress = localStorage.getItem('revisionProgress');
@@ -213,6 +251,7 @@ function RevisionMode() {
             }
 
             console.log('Result and status saved successfully');
+            await fetchSessionMetrics();
         } catch (error) {
             console.error('Error saving result and status:', error);
         }
@@ -225,7 +264,10 @@ function RevisionMode() {
             setIsAnswerRevealed(false);
         }
     }
-}, [filteredQuestions, currentQuestionIndex, userProgress, isSessionComplete]);
+}, [filteredQuestions, currentQuestionIndex, userProgress, isSessionComplete, fetchSessionMetrics]);
+
+
+
 const moveToNextQuestion = useCallback(async () => {
   const currentQuestion = filteredQuestions[currentQuestionIndex];
   if (currentQuestion) {
@@ -236,7 +278,7 @@ const moveToNextQuestion = useCallback(async () => {
 
       // Case 1: Click "Next" without revealing answer
       if (!isAnswerRevealed) {
-          result = 'incorrect';
+          result = 'null';
           status = 'unseen';
       } 
       // Case 2: Click "Reveal Answer" and then "Next" without selecting correct/incorrect
@@ -292,14 +334,14 @@ const moveToNextQuestion = useCallback(async () => {
           if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
           }
-
+        await fetchSessionMetrics();
       } catch (error) {
           console.error('Error saving result:', error);
       }
 
       proceedToNextQuestion();
   }
-}, [filteredQuestions, currentQuestionIndex, userProgress, isAnswerRevealed]);
+}, [filteredQuestions, currentQuestionIndex, userProgress, isAnswerRevealed, fetchSessionMetrics]);
 
 const proceedToNextQuestion = () => {
   const isLastQuestion = currentQuestionIndex === filteredQuestions.length - 1;
@@ -327,6 +369,7 @@ const handleEndSession = async () => {
           setSessionStats({ total: 0, correct: 0 }); // Reset session stats
           setIsSessionStarted(false);
           setIsSessionComplete(false);
+          await fetchSessionMetrics();
       } catch (error) {
           console.error('Error clearing session:', error);
       }
@@ -334,26 +377,22 @@ const handleEndSession = async () => {
 };
 
   const currentQuestion = filteredQuestions[currentQuestionIndex];
-
   if (isLoading) {
     return <div>Loading questions...</div>;
   }
-
+  
   return (
     <div className="revision-mode">
       <h1>Revision Mode</h1>
       <div className="dashboard-layout">
         <div className="stats-panel">
           <DashboardRing
-            globalStats={{
-              total: allQuestions.length,
-              answered: globalStats.answered,
-              correct: globalStats.correct
-            }}
             sessionStats={{
-              total: filteredQuestions.length,
-              answered: sessionStats.total,
-              correct: sessionStats.correct
+              total: numberOfQuestions,
+              answered: sessionMetrics.correct + sessionMetrics.incorrect,
+              correct: sessionMetrics.correct,
+              incorrect: sessionMetrics.incorrect,
+              unseen: sessionMetrics.unseen
             }}
           />
         </div>
@@ -383,27 +422,27 @@ const handleEndSession = async () => {
               {currentQuestion ? (
                 <div className="question-card">
                   <h2>Question:</h2>
-                  <p>{currentQuestion.question}</p> {/* Changed from currentQuestion.Question */}
+                  <p>{currentQuestion.question}</p>
                   {!isAnswerRevealed ? (
                     <button id="reveal-answer" onClick={handleRevealAnswer}>Reveal Answer</button>
                   ) : (
                     <div className="answer-section">
                       <h3>Answer:</h3>
-                      <p>{currentQuestion.answer}</p> {/* Changed from currentQuestion.AnswerSection */}
+                      <p>{currentQuestion.answer}</p>
                       {!isSessionComplete && (
                         <>
                           <button id="mark-correct" onClick={() => handleAnswerFeedback(true)}>Correct</button>
                           <button id="mark-incorrect" onClick={() => handleAnswerFeedback(false)}>Incorrect</button>
                         </>
                       )}
-                      {isSessionComplete && (
-                        <p>Session complete. You've answered all questions.</p>
-                      )}
                     </div>
                   )}
                 </div>
               ) : (
                 <p>No questions available. Try adjusting your filters.</p>
+              )}
+              {isSessionComplete && (
+                <h2>Session complete. You've answered all questions.</h2>
               )}
               <div className="navigation-buttons">
                 <button 

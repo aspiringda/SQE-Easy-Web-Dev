@@ -60,8 +60,8 @@ const DashboardRing = ({ sessionStats }) => {
         <div className="stats-text">
           <p>Total Questions: {sessionStats.total}</p>
           <p>Answered: {sessionStats.answered}</p>
-          <p>Correct: {sessionStats.correct}</p>
-          <p>Percentage: {calculatePercentage(sessionStats.correct, sessionStats.answered)}%</p>
+          <h4 style={{ color: 'green' }}>Correct: {sessionStats.correct}</h4>
+          <h3>Percentage: {calculatePercentage(sessionStats.correct, sessionStats.answered)}%</h3>
         </div>
       </div>
     </div>
