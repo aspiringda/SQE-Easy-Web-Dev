@@ -24,14 +24,14 @@
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^5.0.1",
     "recharts": "^2.13.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "node server/server.js",
-    "build": "react-scripts build",
-    "heroku-postbuild": "npm run build",
+    "start": "react-scripts start",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "heroku-postbuild": "GENERATE_SOURCEMAP=false npm run build",
     "eject": "react-scripts eject",
     "test": "react-scripts test"
   },
