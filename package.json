@@ -11,11 +11,13 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.4",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "if-env": "^1.0.4",
     "mysql2": "^3.11.3",
     "papaparse": "^5.4.1",
     "react": "^18.3.1",
@@ -30,7 +32,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"node server/server.js\" \"PORT=3001 react-scripts start\"",
+    "start:prod": "node server/server.js",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "heroku-postbuild": "GENERATE_SOURCEMAP=false npm run build",
     "eject": "react-scripts eject",
@@ -63,5 +66,6 @@
   "engines": {
     "node": "18.x",
     "npm": "9.x"
-  }
+  },
+  "proxy": "http://localhost:3000"
 }
