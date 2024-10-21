@@ -1,5 +1,4 @@
 {
-  "homepage": "https://aspiringda.github.io/SQE-Easy-Web-Dev/",
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
@@ -12,10 +11,13 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.4",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "if-env": "^1.0.4",
     "mysql2": "^3.11.3",
     "papaparse": "^5.4.1",
     "react": "^18.3.1",
@@ -26,13 +28,14 @@
     "react-router-dom": "^6.27.0",
     "react-scripts": "^5.0.1",
     "recharts": "^2.13.0",
+    "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "concurrently \"node server/server.js\" \"PORT=3001 react-scripts start\"",
-    "build": "react-scripts build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "start:prod": "node server/server.js",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "heroku-postbuild": "GENERATE_SOURCEMAP=false npm run build",
     "eject": "react-scripts eject",
     "test": "react-scripts test"
   },
@@ -59,6 +62,10 @@
     "concurrently": "^9.0.1",
     "gh-pages": "^6.2.0",
     "main": "^1000.0.1"
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
   },
   "proxy": "http://localhost:3000"
 }

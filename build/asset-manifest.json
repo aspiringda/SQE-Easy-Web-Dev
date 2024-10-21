@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/SQE-Easy-Web-Dev/static/css/main.5a3702a2.css",
-    "main.js": "/SQE-Easy-Web-Dev/static/js/main.7a02805d.js",
+    "main.css": "/SQE-Easy-Web-Dev/static/css/main.00dabe39.css",
+    "main.js": "/SQE-Easy-Web-Dev/static/js/main.70fe7cd8.js",
     "static/media/mcq_questions.csv": "/SQE-Easy-Web-Dev/static/media/mcq_questions.cfed9dc9f3dc3a79adae.csv",
     "static/media/mockexam1.csv": "/SQE-Easy-Web-Dev/static/media/mockexam1.cfed9dc9f3dc3a79adae.csv",
     "static/media/logo.png": "/SQE-Easy-Web-Dev/static/media/logo.6de643f214fc322a270c.png",
     "index.html": "/SQE-Easy-Web-Dev/index.html",
-    "main.5a3702a2.css.map": "/SQE-Easy-Web-Dev/static/css/main.5a3702a2.css.map",
-    "main.7a02805d.js.map": "/SQE-Easy-Web-Dev/static/js/main.7a02805d.js.map"
+    "main.00dabe39.css.map": "/SQE-Easy-Web-Dev/static/css/main.00dabe39.css.map",
+    "main.70fe7cd8.js.map": "/SQE-Easy-Web-Dev/static/js/main.70fe7cd8.js.map"
   },
   "entrypoints": [
-    "static/css/main.5a3702a2.css",
-    "static/js/main.7a02805d.js"
+    "static/css/main.00dabe39.css",
+    "static/js/main.70fe7cd8.js"
   ]
 }

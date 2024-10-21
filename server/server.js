@@ -1,18 +1,35 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
-const port = 3000;
+// const server = http.createServer(app);
+// const wss = new WebSocket.Server({ server });
+const port = process.env.PORT || 3001;
+
+const pool = mysql.createPool(
+  process.env.JAWSDB_URL 
+    ? process.env.JAWSDB_URL  // Use JAWSDB_URL in production (Heroku)
+    : {                       // Use local config in development
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        port: process.env.DB_PORT || 3306,
+      }
+);
+
 
 app.use(cors());
 app.use(express.json()); 
 
 // Create a connection pool
 const pool = mysql.createPool({
-    host: '192.168.1.206',
-    user: 'chadielh',
-    password: 'DidoMziwen123!',
+    host: 'localhost',
+    user: 'root',
+    password: 'LawMadeEasy123!',
     database: 'qa_questions'
   });
 
@@ -23,7 +40,7 @@ app.get('/available-modules', async function(req, res) {
       res.json(modules.map(m => m.Module));
     } catch (error) {
       console.error('Error fetching available modules:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: 'Internal server error', details: error.message });
     }
   });
 
@@ -182,6 +199,18 @@ app.get('/session-metrics', async function(req, res) {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
+
+  
+if (process.env.NODE_ENV === 'production') {
+// Serve static files from the React build directory
+app.use(express.static(path.join(__dirname, '../build')));
+
+// Handle React routing, return all requests to React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+}
+
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
