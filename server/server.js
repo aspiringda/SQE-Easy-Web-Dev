@@ -2,47 +2,29 @@ require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
-const http = require('http');
-const WebSocket = require('ws');
 const path = require('path');
 
 const app = express();
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+// const server = http.createServer(app);
+// const wss = new WebSocket.Server({ server });
 const port = process.env.PORT || 3001;
 
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT || 3306,
-  });
+const pool = mysql.createPool(
+  process.env.JAWSDB_URL 
+    ? process.env.JAWSDB_URL  // Use JAWSDB_URL in production (Heroku)
+    : {                       // Use local config in development
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        port: process.env.DB_PORT || 3306,
+      }
+);
 
-if (process.env.NODE_ENV !== 'production') {
+
 app.use(cors());
-}
-const corsOptions = {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-  };
-  
-app.use(cors(corsOptions));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
-
-
-app.use((req, res, next) => {
-    console.log('--- Incoming Request ---');
-    console.log('URL:', req.url);
-    console.log('Method:', req.method);
-    console.log('Headers:', JSON.stringify(req.headers, null, 2));
-    console.log('Body:', JSON.stringify(req.body, null, 2));
-    console.log('Header size:', JSON.stringify(req.headers).length, 'bytes');
-    console.log('-------------------------');
-    next();
-  });
+app.use(express.json());
+app.use(express.urlencoded());
   
 
 // Test the connection and log table data
@@ -61,24 +43,8 @@ app.use((req, res, next) => {
     }
 })();
 
-// app.get('/available-modules', async function(req, res) {
-//     try {
-//       const query = 'SELECT DISTINCT Module FROM m4_qa_sample';
-//       const [modules] = await pool.query(query);
-//       res.json(modules.map(m => m.Module));
-//     } catch (error) {
-//       console.error('Error fetching available modules:', error);
-//       res.status(500).json({ error: 'Internal server error', details: error.message });
-//     }
-//   });
-
-// Modified available-modules endpoint with error handling
 app.get('/available-modules', async function(req, res) {
     try {
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-      
       const query = 'SELECT DISTINCT Module FROM m4_qa_sample';
       const [modules] = await pool.query(query);
       res.json(modules.map(m => m.Module));
@@ -244,18 +210,6 @@ app.get('/session-metrics', async function(req, res) {
     }
 });
 
-// app.use(express.static(path.join(__dirname, '../build')));
-
-// // Serve the frontend for routes that are not API endpoints
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, '../build/index.html'));
-// });
-
-// Your routes here
-app.get('/available-modules', (req, res) => {
-    // Your logic here
-    res.json(['module1', 'module2']); // Example response
-  });
   
 if (process.env.NODE_ENV === 'production') {
 // Serve static files from the React build directory
