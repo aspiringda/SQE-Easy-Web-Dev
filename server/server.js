@@ -12,12 +12,27 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, '../build')));
 
-const pool = mysql.createPool({
+let pool;
+if (process.env.JAWSDB_URL) {
+  const dbConfig = new URL(process.env.JAWSDB_URL);
+  pool = mysql.createPool({
+    host: dbConfig.hostname,
+    user: dbConfig.username,
+    password: dbConfig.password,
+    database: dbConfig.pathname.substr(1),
+    ssl: {
+      rejectUnauthorized: false
+    }
+  });
+} else {
+  // Your existing local database configuration
+  pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
-});
+  });
+}
 
 app.get('/available-modules', async function(req, res) {
     try {
