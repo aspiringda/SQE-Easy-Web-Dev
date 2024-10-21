@@ -165,7 +165,7 @@
 
 #end-session {
   display: inline-block;
-  width: 15%;
+  width: 25%;
   padding: 10px;
   background-color: #b82f2f;
   color: white;
@@ -175,7 +175,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   position: relative;
-  left: 500px;  
+  left: 400px;  
 }
 
 #end-session:hover {

@@ -1,5 +1,5 @@
 .revision-mode {
-  max-width: 1300px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -52,7 +52,7 @@
 
 #start-session {
   display: inline-block;
-  width: 30%;
+  width: 25%;
   padding: 10px;
   background-color: #3498db;
   color: white;
@@ -62,13 +62,13 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   position: relative;
-  left: 400px;  
+  left: 300px;  
   bottom: 60px;
 }
 
 #end-session {
   display: inline-block;
-  width: 30%;
+  width: 25%;
   padding: 10px;
   background-color: #b82f2f;
   color: white;
@@ -78,7 +78,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   position: relative;
-  left: 570px;  
+  left: 400px;
 }
 #start-session:hover {
   background-color: #3fb9e2;

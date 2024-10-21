@@ -10,9 +10,9 @@ app.use(express.json());
 
 // Create a connection pool
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'LawMadeEasy123!',
+    host: '192.168.1.206',
+    user: 'chadielh',
+    password: 'DidoMziwen123!',
     database: 'qa_questions'
   });
 
