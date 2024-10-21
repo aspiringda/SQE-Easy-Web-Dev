@@ -1,20 +1,23 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json()); 
 
-// Create a connection pool
+app.use(express.static(path.join(__dirname, '../build')));
+
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'LawMadeEasy123!',
-    database: 'qa_questions'
-  });
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+});
 
 app.get('/available-modules', async function(req, res) {
     try {
@@ -181,6 +184,19 @@ app.get('/session-metrics', async function(req, res) {
         console.error('Error fetching session metrics:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+  });
+
+pool.getConnection()
+.then(connection => {
+console.log("Database connected successfully");
+connection.release();
+})
+.catch(err => {
+console.error("Database connection failed:", err);
 });
 
 app.listen(port, () => {
