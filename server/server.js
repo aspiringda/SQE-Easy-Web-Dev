@@ -210,44 +210,17 @@ app.get('/session-metrics', async function(req, res) {
 
   
 if (process.env.NODE_ENV === 'production') {
-    console.log('Running in production mode');
     const buildPath = path.join(__dirname, '../build');
     
-    // Log build directory contents
-    try {
-        const buildContents = fs.readdirSync(buildPath);
-        console.log('Build directory contents:', buildContents);
-        
-        if (fs.existsSync(path.join(buildPath, 'static'))) {
-            const staticContents = fs.readdirSync(path.join(buildPath, 'static'));
-            console.log('Static directory contents:', staticContents);
-        }
-    } catch (err) {
-        console.error('Error reading build directory:', err);
-    }
-
-    // Serve static files with proper MIME types
-    app.use('/static', express.static(path.join(buildPath, 'static'), {
-        setHeaders: (res, path) => {
-            if (path.endsWith('.js')) {
-                res.setHeader('Content-Type', 'application/javascript');
-            } else if (path.endsWith('.css')) {
-                res.setHeader('Content-Type', 'text/css');
-            }
-        }
-    }));
-
-    // Serve other static files
+    // Log what directory we're serving from
+    console.log('Serving static files from:', buildPath);
+    
+    // Serve static files
     app.use(express.static(buildPath));
-
-    // Handle React routing
-    app.get('*', (req, res, next) => {
-        if (req.url.startsWith('/static/')) {
-            next();
-        } else {
-            console.log('Serving index.html for path:', req.path);
-            res.sendFile(path.join(buildPath, 'index.html'));
-        }
+    
+    // Serve index.html for all other routes
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(buildPath, 'index.html'));
     });
 }
 
