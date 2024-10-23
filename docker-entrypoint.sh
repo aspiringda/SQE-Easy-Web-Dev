@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
 
-# Add any setup or initialization commands you need here
+# Any setup commands can go here if needed
 
 exec "$@"

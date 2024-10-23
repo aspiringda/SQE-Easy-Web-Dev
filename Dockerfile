@@ -1,27 +1,27 @@
-# Start with a base image (use one that suits your application, e.g., Node.js if you're using Node)
+# Use the official Node.js 16 image
 FROM node:16
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json if applicable (for Node.js projects)
+# Copy package.json and package-lock.json files
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy your application code into the container
+# Copy the rest of the application code
 COPY . .
 
-# Copy the entrypoint script
+# Copy the entrypoint script and make it executable
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Set the entrypoint
+# Set the entrypoint script
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-# Expose the port your app runs on (if applicable)
+# Expose the port (adjust based on your app's configuration)
 EXPOSE 3000
 
-# Start your application
+# Start the application
 CMD ["npm", "start"]
