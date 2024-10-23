@@ -35,7 +35,6 @@
     "start": "concurrently \"node server/server.js\" \"PORT=3001 react-scripts start\"",
     "start:prod": "node server/server.js",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "heroku-postbuild": "GENERATE_SOURCEMAP=false npm run build",
     "eject": "react-scripts eject",
     "test": "react-scripts test"
   },
