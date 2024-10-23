@@ -209,36 +209,47 @@ app.get('/session-metrics', async function(req, res) {
 });
 
   
-// Replace your production static files section with:
 if (process.env.NODE_ENV === 'production') {
     console.log('Running in production mode');
     const buildPath = path.join(__dirname, '../build');
-    console.log('Build path:', buildPath);
     
-    // Check if build directory exists
+    // Log build directory contents
     try {
         const buildContents = fs.readdirSync(buildPath);
         console.log('Build directory contents:', buildContents);
+        
+        if (fs.existsSync(path.join(buildPath, 'static'))) {
+            const staticContents = fs.readdirSync(path.join(buildPath, 'static'));
+            console.log('Static directory contents:', staticContents);
+        }
     } catch (err) {
         console.error('Error reading build directory:', err);
     }
 
-    // Serve static files
+    // Serve static files with proper MIME types
+    app.use('/static', express.static(path.join(buildPath, 'static'), {
+        setHeaders: (res, path) => {
+            if (path.endsWith('.js')) {
+                res.setHeader('Content-Type', 'application/javascript');
+            } else if (path.endsWith('.css')) {
+                res.setHeader('Content-Type', 'text/css');
+            }
+        }
+    }));
+
+    // Serve other static files
     app.use(express.static(buildPath));
-    
+
     // Handle React routing
-    app.get('*', (req, res) => {
-        console.log('Received request for:', req.path);
-        const indexPath = path.join(buildPath, 'index.html');
-        if (fs.existsSync(indexPath)) {
-            res.sendFile(indexPath);
+    app.get('*', (req, res, next) => {
+        if (req.url.startsWith('/static/')) {
+            next();
         } else {
-            console.error('index.html not found at:', indexPath);
-            res.status(404).send('index.html not found');
+            console.log('Serving index.html for path:', req.path);
+            res.sendFile(path.join(buildPath, 'index.html'));
         }
     });
 }
-
 
 app.listen(port, () => {
 console.log(`Server running on port ${port}`);

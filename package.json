@@ -41,7 +41,7 @@
       "start:dev": "concurrently -k \"npm run server\" \"npm run client\"",
       "server": "cross-env NODE_ENV=production node server/server.js",
       "client": "cross-env NODE_ENV=development PORT=3001 react-scripts start",
-      "build": "GENERATE_SOURCEMAP=true CI=false react-scripts build",
+      "build": "CI=false react-scripts build && ls -la build/static/js",
       "dev": "npm run start:dev"
   },
 
