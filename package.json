@@ -34,7 +34,7 @@
   "scripts": {
     "start": "concurrently \"node server/server.js\" \"PORT=3001 react-scripts start\"",
     "start:prod": "node server/server.js",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "build": "npm run buid",
     "eject": "react-scripts eject",
     "test": "react-scripts test"
   },
