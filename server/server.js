@@ -9,18 +9,15 @@ const app = express();
 // const wss = new WebSocket.Server({ server });
 const port = process.env.PORT || 3001;
 
-const pool = mysql.createPool(
-  process.env.JAWSDB_URL 
-    ? process.env.JAWSDB_URL  // Use JAWSDB_URL in production (Heroku)
-    : {                       // Use local config in development
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        port: process.env.DB_PORT || 3306,
-      }
-);
-
+const dbConfig = {
+    host: process.env.DB_HOST || 'autorack.proxy.rlwy.net',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'avxJrfQUUGEDWxHgiipuOUnhVgtXLwwF',
+    database: process.env.DB_NAME || 'railway',
+    port: process.env.DB_PORT || 51785
+  };
+  
+  const pool = mysql.createPool(dbConfig);
 
 app.use(cors());
 app.use(express.json());
@@ -211,17 +208,25 @@ app.get('/session-metrics', async function(req, res) {
 });
 
   
+// Serve static files in production
 if (process.env.NODE_ENV === 'production') {
-// Serve static files from the React build directory
-app.use(express.static(path.join(__dirname, '../build')));
-
-// Handle React routing, return all requests to React app
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
-}
+    // Serve static files
+    app.use(express.static(path.join(__dirname, '../build')));
+    
+    // Handle React routing
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, '../build', 'index.html'));
+    });
+  } else {
+    // Development error route
+    app.get('/', (req, res) => {
+      res.send('Server is running in development mode');
+    });
+  }
 
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+console.log(`Server running on port ${port}`);
+console.log('Node environment:', process.env.NODE_ENV);
+console.log('Current directory:', __dirname);
 });
