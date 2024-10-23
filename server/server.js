@@ -10,11 +10,11 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 const dbConfig = {
-    host: process.env.DB_HOST || 'autorack.proxy.rlwy.net',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'avxJrfQUUGEDWxHgiipuOUnhVgtXLwwF',
-    database: process.env.DB_NAME || 'railway',
-    port: process.env.DB_PORT || 51785
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
   };
   
   const pool = mysql.createPool(dbConfig);
