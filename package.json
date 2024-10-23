@@ -36,7 +36,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently -k \"npm run server\" \"npm run client\"",
+    "start": "node server/server.js",
     "heroku-postbuild": "npm run build",
     "dev": "concurrently -k \"npm run server\" \"npm run client\"",
     "server": "cross-env NODE_ENV=production node server/server.js",
