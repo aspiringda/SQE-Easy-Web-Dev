@@ -36,12 +36,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
-    "start:dev": "concurrently -k \"npm run server\" \"npm run client\"",
-    "start:prod": "node server/server.js",
-    "server": "cross-env NODE_ENV=production node server/server.js",
-    "client": "cross-env NODE_ENV=production PORT=3001 react-scripts start",
-    "build": "CI=false && react-scripts build"
+      "start": "node server/server.js",
+      "postinstall": "npm run build",
+      "start:dev": "concurrently -k \"npm run server\" \"npm run client\"",
+      "server": "cross-env NODE_ENV=production node server/server.js",
+      "client": "cross-env NODE_ENV=development PORT=3001 react-scripts start",
+      "build": "CI=false && react-scripts build",
+      "dev": "npm run start:dev"
   },
 
   "eslintConfig": {

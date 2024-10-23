@@ -3,6 +3,7 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 // const server = http.createServer(app);
@@ -208,21 +209,35 @@ app.get('/session-metrics', async function(req, res) {
 });
 
   
-// Serve static files in production
+// Replace your production static files section with:
 if (process.env.NODE_ENV === 'production') {
+    console.log('Running in production mode');
+    const buildPath = path.join(__dirname, '../build');
+    console.log('Build path:', buildPath);
+    
+    // Check if build directory exists
+    try {
+        const buildContents = fs.readdirSync(buildPath);
+        console.log('Build directory contents:', buildContents);
+    } catch (err) {
+        console.error('Error reading build directory:', err);
+    }
+
     // Serve static files
-    app.use(express.static(path.join(__dirname, '../build')));
+    app.use(express.static(buildPath));
     
     // Handle React routing
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../build', 'index.html'));
+        console.log('Received request for:', req.path);
+        const indexPath = path.join(buildPath, 'index.html');
+        if (fs.existsSync(indexPath)) {
+            res.sendFile(indexPath);
+        } else {
+            console.error('index.html not found at:', indexPath);
+            res.status(404).send('index.html not found');
+        }
     });
-  } else {
-    // Development error route
-    app.get('/', (req, res) => {
-      res.send('Server is running in development mode');
-    });
-  }
+}
 
 
 app.listen(port, () => {
