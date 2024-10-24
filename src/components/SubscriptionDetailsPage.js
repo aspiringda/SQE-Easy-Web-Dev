@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import '../styles/SubscriptionDetails.css';
 
 const SubscriptionDetailsPage = () => {
   const location = useLocation();

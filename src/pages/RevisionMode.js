@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/RevisionMode.css';
 import MultiSelectFilter from './MultiSelectFilter';
 import DashboardRing from './DashboardRing';
+import QuestionFeedback from '../components/QuestionFeedback';
 
 function RevisionMode() {
+  // Core state declarations
   const [allQuestions, setAllQuestions] = useState([]);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -11,34 +13,34 @@ function RevisionMode() {
   const [userProgress, setUserProgress] = useState({});
   const [filters, setFilters] = useState(['all']);
   const [availableModules, setAvailableModules] = useState([]);
+  const [selectedModules, setSelectedModules] = useState([]);
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
   const [isSessionStarted, setIsSessionStarted] = useState(false);
-  const [globalStats, setGlobalStats] = useState({ total: 0, answered: 0, correct: 0 });
-  const [sessionStats, setSessionStats] = useState({ total: 0, correct: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [isSessionComplete, setIsSessionComplete] = useState(false);
-  const [selectedModules, setSelectedModules] = useState([]);
-  const [sessionMetrics, setSessionMetrics] = useState({ unseen: 0, correct: 0, incorrect: 0 });
+  const [sessionMetrics, setSessionMetrics] = useState({
+    unseen: 0,
+    correct: 0,
+    incorrect: 0
+  });
 
+  // Fetch session metrics
   const fetchSessionMetrics = useCallback(async () => {
     try {
       const response = await fetch('/session-metrics');
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const metrics = await response.json();
       setSessionMetrics(metrics);
     } catch (error) {
       console.error('Error fetching session metrics:', error);
     }
   }, []);
-  
+
+  // Fetch available modules
   const fetchAvailableModules = useCallback(async () => {
     try {
       const response = await fetch('/available-modules');
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const modules = await response.json();
       setAvailableModules(modules);
     } catch (error) {
@@ -46,21 +48,16 @@ function RevisionMode() {
     }
   }, []);
 
-  useEffect(() => {
-    fetchAvailableModules();
-  }, [fetchAvailableModules]);
-
-
-
+  // Fetch questions
   const fetchQuestions = useCallback(async (selectedFilters = ['all'], selectedModules = []) => {
     try {
       setIsLoading(true);
-  
       const queryParams = new URLSearchParams();
+      
       if (selectedModules.length > 0) {
         queryParams.append('modules', selectedModules.join(','));
       }
-  
+
       let url;
       if (!selectedFilters || selectedFilters.includes('all')) {
         url = `/qa-questions?${queryParams.toString()}`;
@@ -71,17 +68,11 @@ function RevisionMode() {
         if (selectedFilters.includes('incorrect')) queryParams.append('incorrect', 'true');
         url = `/filtered-questions?${queryParams.toString()}`;
       }
-      
-  
+
       const response = await fetch(url);
-  
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
-      }
-  
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
       const questions = await response.json();
-  
       return questions.map(q => ({
         id: q.id,
         question: q.question,
@@ -96,33 +87,21 @@ function RevisionMode() {
     }
   }, []);
 
+  // Filter handling
   const applyFilters = useCallback((questions, appliedFilters) => {
     let filtered = [...questions];
-  
     const moduleFilters = appliedFilters.filter(f => availableModules.includes(f));
     if (moduleFilters.length > 0) {
       filtered = filtered.filter(q => moduleFilters.includes(q.module));
     }
-  
-    // Other filters (seen, unseen, correct, incorrect) are handled server-side
-    // but we keep this function for potential client-side filtering if needed
-  
-
     return filtered;
   }, [availableModules]);
 
-
-
   const handleFilterChange = useCallback(async (newFilters) => {
-    
-    // Separate module filters from other filters
     const newModuleFilters = newFilters.filter(f => availableModules.includes(f));
     const otherFilters = newFilters.filter(f => !availableModules.includes(f));
-  
-    // Update selected modules
+    
     setSelectedModules(newModuleFilters);
-  
-    // Combine other filters with selected modules for fetching questions
     const combinedFilters = [...otherFilters, ...newModuleFilters];
     setFilters(combinedFilters);
     
@@ -131,31 +110,28 @@ function RevisionMode() {
     setFilteredQuestions(fetchedQuestions);
   }, [availableModules, fetchQuestions]);
 
-  const applyFiltersAndStartSession = useCallback(async() => {
+  // Session handling
+  const applyFiltersAndStartSession = useCallback(async () => {
     const filteredQuestions = applyFilters(allQuestions, filters);
-    setFilteredQuestions(filteredQuestions.slice(0, numberOfQuestions));
+    const selectedQuestions = filteredQuestions.slice(0, numberOfQuestions);
+    setFilteredQuestions(selectedQuestions);
     setCurrentQuestionIndex(0);
     setIsAnswerRevealed(false);
     setIsSessionStarted(true);
-    setSessionStats({ total: 0, correct: 0 });
     setIsSessionComplete(false);
 
     try {
       await fetch('/clear-session', { method: 'POST' });
-      const unseenQuestions = filteredQuestions.slice(0, numberOfQuestions).map(q => ({
-        id: q.id,
-        question: q.question,
-        answer: q.answer,
-        module: q.module,
-        status: 'unseen',
-        result: null
-      }));
-
-      for (const q of unseenQuestions) {
+      
+      for (const question of selectedQuestions) {
         await fetch('/save-result', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(q)
+          body: JSON.stringify({
+            ...question,
+            status: 'unseen',
+            result: null
+          })
         });
       }
 
@@ -165,222 +141,95 @@ function RevisionMode() {
     }
   }, [allQuestions, filters, applyFilters, numberOfQuestions, fetchSessionMetrics]);
 
-  const loadUserProgress = useCallback(() => {
-    const savedProgress = localStorage.getItem('revisionProgress');
-    if (savedProgress) {
-      setUserProgress(JSON.parse(savedProgress));
+  const handleEndSession = async () => {
+    if (window.confirm('Are you sure you want to end the session?')) {
+      try {
+        await fetch('/clear-session', { method: 'POST' });
+        setIsSessionStarted(false);
+        setIsSessionComplete(false);
+        await fetchSessionMetrics();
+      } catch (error) {
+        console.error('Error clearing session:', error);
+      }
     }
-  }, []);
+  };
 
+  // Question handling
+  const handleRevealAnswer = useCallback(() => {
+    setIsAnswerRevealed(true);
+    const question = filteredQuestions[currentQuestionIndex];
+    if (question) {
+      const newProgress = {
+        ...userProgress,
+        [question.question]: { ...userProgress[question.question], seen: true }
+      };
+      setUserProgress(newProgress);
+      localStorage.setItem('revisionProgress', JSON.stringify(newProgress));
+    }
+  }, [filteredQuestions, currentQuestionIndex, userProgress]);
+
+  const handleAnswerFeedback = useCallback(async (isCorrect) => {
+    const question = filteredQuestions[currentQuestionIndex];
+    if (question && !isSessionComplete) {
+      const result = isCorrect ? 'correct' : 'incorrect';
+
+      const newProgress = {
+        ...userProgress,
+        [question.question]: {
+          id: question.id,
+          seen: true,
+          correct: isCorrect
+        }
+      };
+      setUserProgress(newProgress);
+      localStorage.setItem('revisionProgress', JSON.stringify(newProgress));
+
+      try {
+        const response = await fetch('/save-result', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...question,
+            result,
+            status: 'seen'
+          })
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        await fetchSessionMetrics();
+
+        if (currentQuestionIndex === filteredQuestions.length - 1) {
+          setIsSessionComplete(true);
+        } else {
+          setCurrentQuestionIndex(prev => prev + 1);
+          setIsAnswerRevealed(false);
+        }
+      } catch (error) {
+        console.error('Error saving result:', error);
+      }
+    }
+  }, [filteredQuestions, currentQuestionIndex, userProgress, isSessionComplete, fetchSessionMetrics]);
+
+  // Initial load effects
   useEffect(() => {
     fetchAvailableModules();
     fetchQuestions().then(questions => {
       setAllQuestions(questions);
       setFilteredQuestions(questions);
     });
-    loadUserProgress();
-  }, [fetchAvailableModules, fetchQuestions, loadUserProgress]);
-
-  useEffect(() => {
-    const totalQuestions = allQuestions.length;
-    const answeredQuestions = Object.values(userProgress).filter(p => p.seen).length;
-    const correctAnswers = Object.values(userProgress).filter(p => p.correct).length;
-    setGlobalStats({
-      total: totalQuestions,
-      answered: answeredQuestions,
-      correct: correctAnswers
-    });
-  }, [allQuestions, userProgress]);
-
-  const handleRevealAnswer = useCallback(() => {
-    setIsAnswerRevealed(true);
-    const currentQuestion = filteredQuestions[currentQuestionIndex];
-    if (currentQuestion) {
-      const newProgress = {
-        ...userProgress,
-        [currentQuestion.Question]: { ...userProgress[currentQuestion.Question], seen: true }
-      };
-      setUserProgress(newProgress);
-      localStorage.setItem('revisionProgress', JSON.stringify(newProgress));
+    
+    const savedProgress = localStorage.getItem('revisionProgress');
+    if (savedProgress) {
+      setUserProgress(JSON.parse(savedProgress));
     }
-  }, [filteredQuestions, currentQuestionIndex, userProgress]);
-  
-  
-  const handleAnswerFeedback = useCallback(async (isCorrect) => {
-    const currentQuestion = filteredQuestions[currentQuestionIndex];
-    if (currentQuestion && !isSessionComplete) {
-        const result = isCorrect ? 'correct' : 'incorrect';
-        const status = 'seen';
+  }, [fetchAvailableModules, fetchQuestions]);
 
-        // Update local state
-        const newProgress = {
-            ...userProgress,
-            [currentQuestion.Question]: { 
-                id: currentQuestion.id, // Include the ID in the state
-                seen: true,
-                correct: isCorrect
-            }
-        };
-        setUserProgress(newProgress);
-        localStorage.setItem('revisionProgress', JSON.stringify(newProgress));
-
-        setSessionStats(prev => ({
-            total: prev.total + 1,
-            correct: prev.correct + (isCorrect ? 1 : 0)
-        }));
-
-        try {
-            // Save the result and status to the server
-            const response = await fetch('/save-result', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: currentQuestion.id, // Use the ID from m4_qa_sample
-                    question: currentQuestion.question,
-                    answer: currentQuestion.answer,
-                    module: currentQuestion.module,
-                    result: result,
-                    status: status
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            console.log('Result and status saved successfully');
-            await fetchSessionMetrics();
-        } catch (error) {
-            console.error('Error saving result and status:', error);
-        }
-
-        const isLastQuestion = currentQuestionIndex === filteredQuestions.length - 1;
-        if (isLastQuestion) {
-            setIsSessionComplete(true);
-        } else {
-            setCurrentQuestionIndex(prevIndex => prevIndex + 1);
-            setIsAnswerRevealed(false);
-        }
-    }
-}, [filteredQuestions, currentQuestionIndex, userProgress, isSessionComplete, fetchSessionMetrics]);
-
-
-
-const moveToNextQuestion = useCallback(async () => {
-  const currentQuestion = filteredQuestions[currentQuestionIndex];
-  if (currentQuestion) {
-      // Get the user response for the current question, defaulting to an empty object if none exists
-      const userResponse = userProgress[currentQuestion.question] || { seen: false, correct: undefined };
-      let result;
-      let status;
-
-      // Case 1: Click "Next" without revealing answer
-      if (!isAnswerRevealed) {
-          result = 'null';
-          status = 'unseen';
-      } 
-      // Case 2: Click "Reveal Answer" and then "Next" without selecting correct/incorrect
-      else if (isAnswerRevealed && userResponse.correct === undefined) {
-          result = 'incorrect';
-          status = 'seen';
-      } 
-      // Case 3: Click "Reveal Answer" and then "Incorrect"
-      else if (isAnswerRevealed && userResponse.correct === false) {
-          result = 'incorrect';
-          status = 'seen';
-      }
-      // Case 4: Click "Reveal Answer" and then "Correct"
-      else if (isAnswerRevealed && userResponse.correct === true) {
-          result = 'correct';
-          status = 'seen';
-      }
-
-      // Update local state based on the conditions evaluated above
-      const newProgress = {
-          ...userProgress,
-          [currentQuestion.question]: {
-              id: currentQuestion.id, // Ensure the ID is retained in the state
-              seen: status === 'seen',
-              correct: result === 'correct'
-          }
-      };
-      setUserProgress(newProgress);
-      localStorage.setItem('revisionProgress', JSON.stringify(newProgress));
-
-      setSessionStats(prev => ({
-          total: prev.total + 1,
-          correct: prev.correct + (result === 'correct' ? 1 : 0)
-      }));
-
-      try {
-          // Save the result and status to the server
-          const response = await fetch('/save-result', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                  id: currentQuestion.id, // Use the ID from m4_qa_sample
-                  question: currentQuestion.question,
-                  answer: currentQuestion.answer,
-                  module: currentQuestion.module,
-                  result: result,
-                  status: status
-              })
-          });
-
-          if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-        await fetchSessionMetrics();
-      } catch (error) {
-          console.error('Error saving result:', error);
-      }
-
-      proceedToNextQuestion();
-  }
-}, [filteredQuestions, currentQuestionIndex, userProgress, isAnswerRevealed, fetchSessionMetrics]);
-
-const proceedToNextQuestion = () => {
-  const isLastQuestion = currentQuestionIndex === filteredQuestions.length - 1;
-  if (isLastQuestion) {
-      setIsSessionComplete(true);
-  } else {
-      setCurrentQuestionIndex(prevIndex => prevIndex + 1);
-      setIsAnswerRevealed(false); // Reset this to hide the answer for the next question
-  }
-};
-
-
-
-
-
-
-
-  
-  
-
-const handleEndSession = async () => {
-  if (window.confirm('Are you sure you want to end the session?')) {
-      try {
-          await fetch('/clear-session', { method: 'POST' });
-          setSessionStats({ total: 0, correct: 0 }); // Reset session stats
-          setIsSessionStarted(false);
-          setIsSessionComplete(false);
-          await fetchSessionMetrics();
-      } catch (error) {
-          console.error('Error clearing session:', error);
-      }
-  }
-};
-
-  const currentQuestion = filteredQuestions[currentQuestionIndex];
   if (isLoading) {
     return <div>Loading questions...</div>;
   }
-  
+
+  const currentQuestion = filteredQuestions[currentQuestionIndex];
+
   return (
     <div className="revision-mode">
       <h1>Revision Mode</h1>
@@ -412,10 +261,14 @@ const handleEndSession = async () => {
                   min="1"
                   max={allQuestions.length}
                   value={numberOfQuestions}
-                  onChange={(e) => setNumberOfQuestions(Math.max(1, Math.min(allQuestions.length, parseInt(e.target.value) || 1)))}
+                  onChange={(e) => setNumberOfQuestions(
+                    Math.max(1, Math.min(allQuestions.length, parseInt(e.target.value) || 1))
+                  )}
                 />
               </div>
-              <button id="start-session" onClick={applyFiltersAndStartSession}>Start Session</button>
+              <button id="start-session" onClick={applyFiltersAndStartSession}>
+                Start Session
+              </button>
             </>
           ) : (
             <>
@@ -423,16 +276,27 @@ const handleEndSession = async () => {
                 <div className="question-card">
                   <h2>Question:</h2>
                   <p>{currentQuestion.question}</p>
+                  <QuestionFeedback 
+                    questionId={currentQuestion.id}
+                    userEmail={localStorage.getItem('userEmail')}
+                    handleSuccess={() => console.log('Feedback submitted successfully')}
+                  />
                   {!isAnswerRevealed ? (
-                    <button id="reveal-answer" onClick={handleRevealAnswer}>Reveal Answer</button>
+                    <button id="reveal-answer" onClick={handleRevealAnswer}>
+                      Reveal Answer
+                    </button>
                   ) : (
                     <div className="answer-section">
                       <h3>Answer:</h3>
                       <p>{currentQuestion.answer}</p>
                       {!isSessionComplete && (
                         <>
-                          <button id="mark-correct" onClick={() => handleAnswerFeedback(true)}>Correct</button>
-                          <button id="mark-incorrect" onClick={() => handleAnswerFeedback(false)}>Incorrect</button>
+                          <button id="mark-correct" onClick={() => handleAnswerFeedback(true)}>
+                            Correct
+                          </button>
+                          <button id="mark-incorrect" onClick={() => handleAnswerFeedback(false)}>
+                            Incorrect
+                          </button>
                         </>
                       )}
                     </div>
@@ -457,7 +321,15 @@ const handleEndSession = async () => {
                 </button>
                 <button 
                   id="next-question"
-                  onClick={moveToNextQuestion}
+                  onClick={() => {
+                    const isLastQuestion = currentQuestionIndex === filteredQuestions.length - 1;
+                    if (!isLastQuestion) {
+                      setCurrentQuestionIndex(prev => prev + 1);
+                      setIsAnswerRevealed(false);
+                    } else {
+                      setIsSessionComplete(true);
+                    }
+                  }}
                   disabled={currentQuestionIndex === filteredQuestions.length - 1}
                 >
                   Next
@@ -466,7 +338,9 @@ const handleEndSession = async () => {
               <div className="session-progress">
                 Question {currentQuestionIndex + 1} of {filteredQuestions.length}
               </div>
-              <button id="end-session" onClick={handleEndSession}>End Session</button>
+              <button id="end-session" onClick={handleEndSession}>
+                End Session
+              </button>
             </>
           )}
         </div>

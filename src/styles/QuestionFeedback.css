@@ -1,0 +1,132 @@
+.question-feedback-container {
+    display: inline-block;
+  }
+  
+  .flag-question-btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--steel-grey);
+    color: var(--deep-navy);
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Nunito', sans-serif;
+  }
+  
+  .flag-question-btn:hover {
+    background-color: #8A8E9A;
+  }
+  
+  .feedback-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .feedback-modal {
+    background-color: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feedback-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .feedback-modal-header h2 {
+    margin: 0;
+    color: var(--deep-navy);
+    font-weight: 700;
+  }
+  
+  .close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--steel-grey);
+    padding: 0.5rem;
+  }
+  
+  .feedback-modal-content textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--steel-grey);
+    border-radius: 4px;
+    margin: 1rem 0;
+    font-family: 'Nunito', sans-serif;
+    resize: vertical;
+  }
+  
+  .char-counter {
+    text-align: right;
+    color: var(--steel-grey);
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .error-message {
+    color: #dc2626;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .feedback-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .cancel-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--steel-grey);
+    color: var(--deep-navy);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--deep-navy);
+    color: var(--off-white);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #8A8E9A;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0D2E5A;
+  }
+  
+  .cancel-btn:disabled,
+  .submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
