@@ -3,24 +3,22 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 // const server = http.createServer(app);
 // const wss = new WebSocket.Server({ server });
 const port = process.env.PORT || 3001;
 
-const pool = mysql.createPool(
-  process.env.JAWSDB_URL 
-    ? process.env.JAWSDB_URL  // Use JAWSDB_URL in production (Heroku)
-    : {                       // Use local config in development
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        port: process.env.DB_PORT || 3306,
-      }
-);
-
+const dbConfig = {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
+  };
+  
+  const pool = mysql.createPool(dbConfig);
 
 app.use(cors());
 app.use(express.json()); 
@@ -194,16 +192,22 @@ app.get('/session-metrics', async function(req, res) {
 
   
 if (process.env.NODE_ENV === 'production') {
-// Serve static files from the React build directory
-app.use(express.static(path.join(__dirname, '../build')));
-
-// Handle React routing, return all requests to React app
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
+    const buildPath = path.join(__dirname, '../build');
+    
+    // Log what directory we're serving from
+    console.log('Serving static files from:', buildPath);
+    
+    // Serve static files
+    app.use(express.static(buildPath));
+    
+    // Serve index.html for all other routes
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(buildPath, 'index.html'));
+    });
 }
 
-
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+console.log(`Server running on port ${port}`);
+console.log('Node environment:', process.env.NODE_ENV);
+console.log('Current directory:', __dirname);
 });

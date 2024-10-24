@@ -11,14 +11,18 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
+    "babel-cli": "^6.26.0",
     "body-parser": "^1.20.3",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.4",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
+    "eslint": "^8.57.1",
     "express": "^4.21.1",
     "if-env": "^1.0.4",
     "mysql2": "^3.11.3",
+    "nodemon": "^3.1.7",
     "papaparse": "^5.4.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
@@ -32,13 +36,15 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"node server/server.js\" \"PORT=3001 react-scripts start\"",
-    "start:prod": "node server/server.js",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "heroku-postbuild": "GENERATE_SOURCEMAP=false npm run build",
-    "eject": "react-scripts eject",
-    "test": "react-scripts test"
+      "start": "node server/server.js",
+      "postinstall": "npm run build",
+      "start:dev": "concurrently -k \"npm run server\" \"npm run client\"",
+      "server": "cross-env NODE_ENV=production node server/server.js",
+      "client": "cross-env NODE_ENV=development PORT=3001 react-scripts start",
+      "build": "CI=false react-scripts build && ls -la build/static/js",
+      "dev": "npm run start:dev"
   },
+
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -64,7 +70,7 @@
     "main": "^1000.0.1"
   },
   "engines": {
-    "node": "18.x",
+    "node": "20.x",
     "npm": "9.x"
   },
   "proxy": "http://localhost:3000"
