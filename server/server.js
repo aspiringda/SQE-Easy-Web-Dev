@@ -25,14 +25,6 @@ const pool = mysql.createPool(
 app.use(cors());
 app.use(express.json()); 
 
-// Create a connection pool
-const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'LawMadeEasy123!',
-    database: 'qa_questions'
-  });
-
 app.get('/available-modules', async function(req, res) {
     try {
       const query = 'SELECT DISTINCT Module FROM m4_qa_sample';

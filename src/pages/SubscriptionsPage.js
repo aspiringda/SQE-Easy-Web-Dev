@@ -6,11 +6,11 @@ function Subscriptions() {
   const navigate = useNavigate();
 
   const handleSubscribe = (plan, duration, price) => {
-    navigate('/payment', { state: { amount: price, type: `${plan} ${duration} months subscription` } });
+    navigate('/subscription-details', { state: { plan, duration, price } });
   };
-
+  
   const handleMockPurchase = (count, price) => {
-    navigate('/payment', { state: { amount: price, type: `${count} mock exams` } });
+    navigate('/subscription-details', { state: { plan: 'Mock Exam', count, price } });
   };
 
   return (

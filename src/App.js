@@ -16,8 +16,8 @@ import Dashboard from './pages/Dashboard';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import SubscriptionsPage from './pages/SubscriptionsPage';
+import SubscriptionDetailsPage from './components/SubscriptionDetailsPage';
 import DiagnosticTest from './pages/DiagnosticTest';
-import DashborardRing from './pages/DashboardRing';
 import './styles/App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
@@ -48,6 +48,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/subscriptions" element={<SubscriptionsPage />} />
+          <Route path="/subscription-details" element={<SubscriptionDetailsPage />} />
           <Route path="/diagnostic" element={<DiagnosticTest />} />
         </Routes>
       </div>
